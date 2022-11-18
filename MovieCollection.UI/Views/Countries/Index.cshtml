@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MovieCollection.DAL.Models.Country>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Countries List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Countries" asp-action="Create" class="btn btn-primary">Create new Country</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Country Name
+                    </th>
+                    <th>
+                        Changes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expense in Model)
+                {
+                    <tr>
+                        <td width="10%">@expense.Id</td>
+                        <td width="70%">@expense.Name</td>
+                        <td width="20%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Countries" asp-action="Update" asp-route-Id="@expense.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Countries" asp-action="DeletePost" asp-route-Id="@expense.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Countries created yet.</p>
+    }
+
+
+</div>
