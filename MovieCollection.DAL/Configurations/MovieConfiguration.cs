@@ -34,10 +34,6 @@ namespace MovieCollection.DAL.Configurations
             builder.Property(p => p.ReleaseDate)
                     .IsRequired()
                     .HasColumnType("date");
-
-            builder.Property(p => p.Country)
-                    .IsRequired()
-                    .HasColumnType("Country");
         }
     }
 }

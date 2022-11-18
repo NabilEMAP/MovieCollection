@@ -37,7 +37,8 @@ namespace MovieCollection.DAL.Configurations
                     .HasColumnType("varchar(100)");
 
             builder.Property(p => p.IsActive)
-                    .HasColumnType("tinyint(1)");
+                    .IsRequired()
+                    .HasColumnType("varchar(25)");
         }
     }
 }

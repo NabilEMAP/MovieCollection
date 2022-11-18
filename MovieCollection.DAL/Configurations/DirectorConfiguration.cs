@@ -30,16 +30,20 @@ namespace MovieCollection.DAL.Configurations
                     .HasColumnType("varchar(25)");
 
             builder.Property(p => p.DateOfBirth)
+                    .IsRequired()
                     .HasColumnType("date");
 
             builder.Property(p => p.Nationality)
+                    .IsRequired()
                     .HasColumnType("varchar(25)");
 
             builder.Property(p => p.IsActive)
-                    .HasColumnType("tinyint(1)");
+                    .IsRequired()
+                    .HasColumnType("varchar(25)");
 
             builder.Property(p => p.PicturePath)
-                    .HasColumnType("varchar(100)");
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
         }
     }
 }
