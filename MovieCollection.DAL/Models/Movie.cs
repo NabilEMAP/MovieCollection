@@ -5,7 +5,6 @@ using System.Numerics;
 
 namespace MovieCollection.DAL.Models
 {
-    [Table("Movies")]
     public class Movie
     {
         public int Id { get; set; }
