@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieCollection.DAL.Configurations;
 using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -28,13 +29,12 @@ namespace MovieCollection.DAL.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            //base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Country>();
-            modelBuilder.Entity<Director>();
-            modelBuilder.Entity<Genre>();
-            modelBuilder.Entity<Movie>();
-            modelBuilder.Entity<User>();
-
+            //base.OnModelCreating(modelBuilder);            
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new DirectorConfiguration());
+            modelBuilder.ApplyConfiguration(new GenreConfiguration());
+            modelBuilder.ApplyConfiguration(new MovieConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

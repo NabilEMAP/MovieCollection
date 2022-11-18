@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieCollection.DAL.Models
@@ -10,7 +8,6 @@ namespace MovieCollection.DAL.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
-
         public Movie Movie { get; set; }
     }
 }
