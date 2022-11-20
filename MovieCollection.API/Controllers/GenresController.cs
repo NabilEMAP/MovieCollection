@@ -1,50 +1,111 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.DAL.Contexts;
+using MovieCollection.DAL.Models;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class GenresController : APIv1Controller
+    public class GenresController : Controller
     {
-        private readonly IGenresService genresService;
+        //private readonly IGenresService _db;
 
-        public GenresController(IGenresService genresService)
+        //public GenresController(IGenresService countriesService)
+        //{
+        //    _db = countriesService;
+        //}
+
+        private readonly ApplicationDbContext _db;
+
+        public GenresController(ApplicationDbContext db)
         {
-            this.genresService = genresService;
+            _db = db;
         }
 
-        [HttpGet]   //api/genres?lastname=El Moussaoui
-        public IActionResult GetAllGenres([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
+        public IActionResult Index()
         {
-            return Ok(genresService.GetAll(pageNr, pageSize));
+            IEnumerable<Genre> objList = _db.Genres;
+            return View(objList);
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetGenre(int id)
+        // GET-Create
+        public IActionResult Create()
         {
-            throw new NotImplementedException();
+            return View();
         }
 
+        // POST-Create
         [HttpPost]
-        public IActionResult CreateGenre()
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Genre obj)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                _db.Genres.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
 
-        [Route("{id}")]  //api/genres/id
-        [HttpDelete]
-        public IActionResult DeleteGenre(int id, [FromHeader(Name = "X-AccessKey")] string AccessKey)
+        // GET-Delete
+        public IActionResult Delete(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Genres.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateGenre(int id)
+        // POST-Delete
+        public IActionResult DeletePost(int? id)
         {
-            throw new NotImplementedException();
+            var obj = _db.Genres.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Genres.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+        // GET-Update
+        public IActionResult Update(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Genres.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        // POST-Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Genre obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Genres.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+
         }
     }
 }
