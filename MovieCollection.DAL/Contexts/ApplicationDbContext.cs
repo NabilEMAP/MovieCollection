@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieCollection.DAL.Configurations;
 using MovieCollection.DAL.Models;
+using MovieCollection.DAL.Seeding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace MovieCollection.DAL.Contexts
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new MovieConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.Entity<Country>().Seed();
         }
     }
 }
