@@ -10,7 +10,6 @@ namespace MovieCollection.DAL.Models
         public int DirectorId { get; set; }
         public Director Director { get; set; }
         public ICollection<User> Users { get; set; }
-        public ICollection<Genre> Genres { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; set; }
 

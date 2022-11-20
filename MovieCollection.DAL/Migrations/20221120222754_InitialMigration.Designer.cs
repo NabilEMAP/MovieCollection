@@ -12,7 +12,7 @@ using MovieCollection.DAL.Contexts;
 namespace MovieCollection.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120221119_InitialMigration")]
+    [Migration("20221120222754_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1071,9 +1071,6 @@ namespace MovieCollection.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(25)");
@@ -1082,8 +1079,6 @@ namespace MovieCollection.DAL.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("MovieId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -1242,13 +1237,6 @@ namespace MovieCollection.DAL.Migrations
                     b.ToTable("MovieUser");
                 });
 
-            modelBuilder.Entity("MovieCollection.DAL.Models.Genre", b =>
-                {
-                    b.HasOne("MovieCollection.DAL.Models.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
-                });
-
             modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
                 {
                     b.HasOne("MovieCollection.DAL.Models.Country", "Country")
@@ -1286,11 +1274,6 @@ namespace MovieCollection.DAL.Migrations
             modelBuilder.Entity("MovieCollection.DAL.Models.Director", b =>
                 {
                     b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
-                {
-                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }
