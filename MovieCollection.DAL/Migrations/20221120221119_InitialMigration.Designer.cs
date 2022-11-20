@@ -12,7 +12,7 @@ using MovieCollection.DAL.Contexts;
 namespace MovieCollection.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120190523_InitialMigration")]
+    [Migration("20221120221119_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,21 +23,6 @@ namespace MovieCollection.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("GenreMovie", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("GenreMovie");
-                });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Country", b =>
                 {
@@ -1086,6 +1071,9 @@ namespace MovieCollection.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(25)");
@@ -1095,10 +1083,74 @@ namespace MovieCollection.DAL.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
+                    b.HasIndex("MovieId");
+
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("tblGenres", "Genre");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Devotional"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Hindu mythology"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Science fiction"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Other"
+                        });
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
@@ -1190,19 +1242,11 @@ namespace MovieCollection.DAL.Migrations
                     b.ToTable("MovieUser");
                 });
 
-            modelBuilder.Entity("GenreMovie", b =>
+            modelBuilder.Entity("MovieCollection.DAL.Models.Genre", b =>
                 {
-                    b.HasOne("MovieCollection.DAL.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieCollection.DAL.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Genres")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
@@ -1242,6 +1286,11 @@ namespace MovieCollection.DAL.Migrations
             modelBuilder.Entity("MovieCollection.DAL.Models.Director", b =>
                 {
                     b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
+                {
+                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }

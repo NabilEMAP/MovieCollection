@@ -37,6 +37,7 @@ namespace MovieCollection.DAL.Contexts
             modelBuilder.ApplyConfiguration(new MovieConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.Entity<Country>().Seed();
+            modelBuilder.Entity<Genre>().Seed();
         }
     }
 }
