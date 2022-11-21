@@ -11,9 +11,9 @@ namespace MovieCollection.API.Controllers
     {
         //private readonly IGenresService _db;
 
-        //public GenresController(IGenresService countriesService)
+        //public GenresController(IGenresService genresService)
         //{
-        //    _db = countriesService;
+        //    _db = genresService;
         //}
 
         private readonly ApplicationDbContext _db;
