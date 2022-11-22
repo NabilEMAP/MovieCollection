@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MovieCollection.DAL.Models.Director>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Directors List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Directors" asp-action="Create" class="btn btn-primary">Create new Director</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Date Of Birth
+                    </th>
+                    <th>
+                        Nationality
+                    </th>
+                    <th>
+                        Is Active?
+                    </th>
+                    <th>
+                        Picture
+                    </th>
+                    <th>
+                        Changes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var director in Model)
+                {
+                    <tr>
+                        <td width="5%">@director.Id</td>
+                        <td width="15%">@director.FirstName</td>
+                        <td width="15%">@director.LastName</td>
+                        <td width="10%">@director.DateOfBirth.ToShortDateString()</td>
+                        <td width="10%">@director.Nationality</td>
+                        <td width="5%">@director.IsActive</td>
+                        <td width="20%">@director.PicturePath</td>
+                        <td width="20%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Directors" asp-action="Update" asp-route-Id="@director.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Directors" asp-action="Delete" asp-route-Id="@director.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Directors created yet.</p>
+    }
+
+
+</div>

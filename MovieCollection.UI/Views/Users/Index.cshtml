@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MovieCollection.DAL.Models.User>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Users List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Users" asp-action="Create" class="btn btn-primary">Create new User</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Is Active?
+                    </th>
+                    <th>
+                        Changes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td width="5%">@user.Id</td>
+                        <td width="20%">@user.FirstName</td>
+                        <td width="20%">@user.LastName</td>
+                        <td width="30%">@user.Email</td>
+                        <td width="5%">@user.IsActive</td>
+                        <td width="20%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Users" asp-action="Update" asp-route-Id="@user.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Users" asp-action="Delete" asp-route-Id="@user.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Users created yet.</p>
+    }
+
+
+</div>

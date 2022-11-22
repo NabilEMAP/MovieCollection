@@ -1,72 +1,111 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class UsersController : APIv1Controller
+    public class UsersController : Controller
     {
-        private readonly IUsersService usersService;
+        //private readonly IUsersService _db;
 
-        public UsersController(IUsersService usersService)
+        //public UsersController(IUsersService usersService)
+        //{
+        //    _db = usersService;
+        //}
+
+        private readonly ApplicationDbContext _db;
+
+        public UsersController(ApplicationDbContext db)
         {
-            this.usersService = usersService;
+            _db = db;
         }
 
-        [HttpGet]   //api/users?lastname=El Moussaoui
-        public IActionResult GetAllUsers([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
-        { 
-            return Ok(usersService.GetAll(pageNr, pageSize));
-        }
-
-        [HttpGet]   //api/users?lastname=El Moussaoui
-        public IActionResult GetAll()
+        public IActionResult Index()
         {
-            var result = usersService.GetAll();
-            if (result.Any() == false)
-                return NotFound();
-            return Ok(result);
+            IEnumerable<User> objList = _db.Users;
+            return View(objList);
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetUser(int id)
+        // GET-Create
+        public IActionResult Create()
         {
-            var result = usersService.GetById(id);
-            if(result == null)
-                return NotFound();
-            return Ok(result);
+            return View();
         }
 
+        // POST-Create
         [HttpPost]
-        public IActionResult CreateUser()
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(User obj)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                _db.Users.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
 
-        [Route("{id}")]  //api/users/id
-        [HttpDelete]
-        public IActionResult DeleteUser(int id, [FromHeader(Name = "X-AccessKey")] string AccessKey)
+        // GET-Delete
+        public IActionResult Delete(int? id)
         {
-            try
-            {
-                usersService.Delete(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
+            var obj = _db.Users.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateUser([FromBody]User user)
+        // POST-Delete
+        public IActionResult DeletePost(int? id)
         {
-            usersService.Update(user);
-            return Ok();
+            var obj = _db.Users.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Users.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+        // GET-Update
+        public IActionResult Update(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Users.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        // POST-Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(User obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Users.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+
         }
     }
 }

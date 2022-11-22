@@ -11,6 +11,6 @@ namespace MovieCollection.DAL.Models
         public string Nationality { get; set; }
         public string IsActive { get; set; }
         public string PicturePath { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        //public ICollection<Movie> Movies { get; set; }
     }
 }

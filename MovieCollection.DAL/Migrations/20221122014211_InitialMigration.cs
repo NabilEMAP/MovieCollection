@@ -119,32 +119,6 @@ namespace MovieCollection.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MovieUser",
-                columns: table => new
-                {
-                    MoviesId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieUser", x => new { x.MoviesId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_MovieUser_tblMovies_MoviesId",
-                        column: x => x.MoviesId,
-                        principalSchema: "Movie",
-                        principalTable: "tblMovies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MovieUser_tblUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalSchema: "User",
-                        principalTable: "tblUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 schema: "Country",
                 table: "tblCountries",
@@ -381,6 +355,19 @@ namespace MovieCollection.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                schema: "Director",
+                table: "tblDirectors",
+                columns: new[] { "Id", "DateOfBirth", "FirstName", "IsActive", "LastName", "Nationality", "PicturePath" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1965, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael", "Yes", "Bay", "American", "/images/MichaelBay.png" },
+                    { 2, new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Christopher", "Yes", "Nolan", "English", "/images/ChristopherNolan.png" },
+                    { 3, new DateTime(1937, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ridley", "Yes", "Scott", "English", "/images/RidleyScott.png" },
+                    { 4, new DateTime(1935, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Woody", "No", "Allen", "American", "/images/WoodyAllen.png" },
+                    { 5, new DateTime(1961, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Peter", "Yes", "Jackson", "New Zealander", "/images/PeterJackson.png" }
+                });
+
+            migrationBuilder.InsertData(
                 schema: "Genre",
                 table: "tblGenres",
                 columns: new[] { "Id", "Name" },
@@ -395,15 +382,31 @@ namespace MovieCollection.DAL.Migrations
                     { 7, "Hindu mythology" },
                     { 8, "Historical" },
                     { 9, "Horror" },
-                    { 10, "Science fiction" },
+                    { 10, "Science fiction" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Genre",
+                table: "tblGenres",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
                     { 11, "Western" },
                     { 12, "Other" }
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieUser_UsersId",
-                table: "MovieUser",
-                column: "UsersId");
+            migrationBuilder.InsertData(
+                schema: "User",
+                table: "tblUsers",
+                columns: new[] { "Id", "Email", "FirstName", "IsActive", "LastName" },
+                values: new object[,]
+                {
+                    { 1, "Nabil_EM@outlook.com", "Nabil", "Yes", "El Moussaoui" },
+                    { 2, "Abdelmajid.Amiri@outlook.com", "Abdelmajid", "Yes", "Amiri" },
+                    { 3, "Azdine.ElJattari@outlook.com", "Azdine", "No", "El Jattari" },
+                    { 4, "Mohamed.Azdad@outlook.com", "Mohamed", "Yes", "Azdad" },
+                    { 5, "Mirwahaj.Waez@outlook.com", "Mirwahaj", "No", "Waez" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCountries_Id",
@@ -490,9 +493,6 @@ namespace MovieCollection.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "MovieUser");
-
             migrationBuilder.DropTable(
                 name: "tblGenres",
                 schema: "Genre");

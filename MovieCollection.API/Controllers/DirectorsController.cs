@@ -1,50 +1,111 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.DAL.Contexts;
+using MovieCollection.DAL.Models;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class DirectorsController : APIv1Controller
+    public class DirectorsController : Controller
     {
-        private readonly IDirectorsService directorsService;
+        //private readonly IDirectorsService _db;
 
-        public DirectorsController(IDirectorsService directorsService)
+        //public DirectorsController(IDirectorsService directorsService)
+        //{
+        //    _db = directorsService;
+        //}
+
+        private readonly ApplicationDbContext _db;
+
+        public DirectorsController(ApplicationDbContext db)
         {
-            this.directorsService = directorsService;
+            _db = db;
         }
 
-        [HttpGet]   //api/directors?lastname=El Moussaoui
-        public IActionResult GetAllDirectors([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
+        public IActionResult Index()
         {
-            return Ok(directorsService.GetAll(pageNr, pageSize));
+            IEnumerable<Director> objList = _db.Directors;
+            return View(objList);
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetDirector(int id)
+        // GET-Create
+        public IActionResult Create()
         {
-            throw new NotImplementedException();
+            return View();
         }
 
+        // POST-Create
         [HttpPost]
-        public IActionResult CreateDirector()
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Director obj)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                _db.Directors.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
 
-        [Route("{id}")]  //api/directors/id
-        [HttpDelete]
-        public IActionResult DeleteDirector(int id, [FromHeader(Name = "X-AccessKey")] string AccessKey)
+        // GET-Delete
+        public IActionResult Delete(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Directors.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateDirector(int id)
+        // POST-Delete
+        public IActionResult DeletePost(int? id)
         {
-            throw new NotImplementedException();
+            var obj = _db.Directors.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Directors.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+        // GET-Update
+        public IActionResult Update(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Directors.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        // POST-Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Director obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Directors.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+
         }
     }
 }

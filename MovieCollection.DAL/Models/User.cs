@@ -9,6 +9,6 @@ namespace MovieCollection.DAL.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string IsActive { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        //public ICollection<Movie> Movies { get; set; }
     }
 }

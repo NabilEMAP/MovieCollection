@@ -1059,6 +1059,58 @@ namespace MovieCollection.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("tblDirectors", "Director");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateOfBirth = new DateTime(1965, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Michael",
+                            IsActive = "Yes",
+                            LastName = "Bay",
+                            Nationality = "American",
+                            PicturePath = "/images/MichaelBay.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Christopher",
+                            IsActive = "Yes",
+                            LastName = "Nolan",
+                            Nationality = "English",
+                            PicturePath = "/images/ChristopherNolan.png"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateOfBirth = new DateTime(1937, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Ridley",
+                            IsActive = "Yes",
+                            LastName = "Scott",
+                            Nationality = "English",
+                            PicturePath = "/images/RidleyScott.png"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateOfBirth = new DateTime(1935, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Woody",
+                            IsActive = "No",
+                            LastName = "Allen",
+                            Nationality = "American",
+                            PicturePath = "/images/WoodyAllen.png"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateOfBirth = new DateTime(1961, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Peter",
+                            IsActive = "Yes",
+                            LastName = "Jackson",
+                            Nationality = "New Zealander",
+                            PicturePath = "/images/PeterJackson.png"
+                        });
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Genre", b =>
@@ -1218,21 +1270,48 @@ namespace MovieCollection.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("tblUsers", "User");
-                });
 
-            modelBuilder.Entity("MovieUser", b =>
-                {
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MoviesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("MovieUser");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "Nabil_EM@outlook.com",
+                            FirstName = "Nabil",
+                            IsActive = "Yes",
+                            LastName = "El Moussaoui"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "Abdelmajid.Amiri@outlook.com",
+                            FirstName = "Abdelmajid",
+                            IsActive = "Yes",
+                            LastName = "Amiri"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "Azdine.ElJattari@outlook.com",
+                            FirstName = "Azdine",
+                            IsActive = "No",
+                            LastName = "El Jattari"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "Mohamed.Azdad@outlook.com",
+                            FirstName = "Mohamed",
+                            IsActive = "Yes",
+                            LastName = "Azdad"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Email = "Mirwahaj.Waez@outlook.com",
+                            FirstName = "Mirwahaj",
+                            IsActive = "No",
+                            LastName = "Waez"
+                        });
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
@@ -1244,7 +1323,7 @@ namespace MovieCollection.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("MovieCollection.DAL.Models.Director", "Director")
-                        .WithMany("Movies")
+                        .WithMany()
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1252,26 +1331,6 @@ namespace MovieCollection.DAL.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("Director");
-                });
-
-            modelBuilder.Entity("MovieUser", b =>
-                {
-                    b.HasOne("MovieCollection.DAL.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieCollection.DAL.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.Director", b =>
-                {
-                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
