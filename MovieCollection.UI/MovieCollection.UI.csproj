@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieCollection.BLL\MovieCollection.BLL.csproj" />
     <ProjectReference Include="..\MovieCollection.DAL\MovieCollection.DAL.csproj" />
-    <ProjectReference Include="..\MovieCollection.API\MovieCollection.API.csproj" />
   </ItemGroup>
 
 </Project>

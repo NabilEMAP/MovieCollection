@@ -9,6 +9,7 @@ namespace MovieCollection.API.Controllers
 {
     public class DirectorsController : Controller
     {
+        /*
         //private readonly IDirectorsService _db;
 
         //public DirectorsController(IDirectorsService directorsService)
@@ -107,5 +108,6 @@ namespace MovieCollection.API.Controllers
             return View(obj);
 
         }
+        */
     }
 }

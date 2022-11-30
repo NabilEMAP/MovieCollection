@@ -9,6 +9,7 @@ namespace MovieCollection.API.Controllers
 {
     public class GenresController : Controller
     {
+        /*
         //private readonly IGenresService _db;
 
         //public GenresController(IGenresService genresService)
@@ -107,5 +108,6 @@ namespace MovieCollection.API.Controllers
             return View(obj);
 
         }
+        */
     }
 }

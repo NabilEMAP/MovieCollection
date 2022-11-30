@@ -9,6 +9,7 @@ namespace MovieCollection.API.Controllers
 {
     public class CountriesController : Controller
     {
+        /*
         //private readonly ICountriesService _db;
 
         //public CountriesController(ICountriesService countriesService)
@@ -107,5 +108,6 @@ namespace MovieCollection.API.Controllers
             return View(obj);
 
         }
+        */
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MovieCollection.BLL.Interfaces;
 using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using System;
@@ -9,7 +8,6 @@ namespace MovieCollection.API.Controllers
 {
     public class UsersController : Controller
     {
-        /*
         //private readonly IUsersService _db;
 
         //public UsersController(IUsersService usersService)
@@ -108,6 +106,5 @@ namespace MovieCollection.API.Controllers
             return View(obj);
 
         }
-        */
     }
 }

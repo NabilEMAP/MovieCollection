@@ -7,7 +7,6 @@ namespace MovieCollection.API.Controllers
 {
     public class MoviesController : APIv1Controller
     {
-        /*
         private readonly IMoviesService moviesService;
 
         public MoviesController(IMoviesService moviesService)
@@ -55,6 +54,5 @@ namespace MovieCollection.API.Controllers
         {
             throw new NotImplementedException();
         }
-        */
     }
 }

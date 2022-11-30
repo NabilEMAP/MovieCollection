@@ -1,32 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MovieCollection.BLL.Interfaces;
 using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class UsersController : Controller
+    public class CountriesController : Controller
     {
-        /*
-        //private readonly IUsersService _db;
+        //private readonly ICountriesService _db;
 
-        //public UsersController(IUsersService usersService)
+        //public CountriesController(ICountriesService countriesService)
         //{
-        //    _db = usersService;
+        //    _db = countriesService;
         //}
 
         private readonly ApplicationDbContext _db;
 
-        public UsersController(ApplicationDbContext db)
+        public CountriesController(ApplicationDbContext db)
         {
             _db = db;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<User> objList = _db.Users;
+            IEnumerable<Country> objList = _db.Countries;
             return View(objList);
         }
 
@@ -39,11 +37,11 @@ namespace MovieCollection.API.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(User obj)
+        public IActionResult Create(Country obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Users.Add(obj);
+                _db.Countries.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -57,7 +55,7 @@ namespace MovieCollection.API.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Users.Find(id);
+            var obj = _db.Countries.Find(id);
             if (obj == null)
             {
                 return NotFound();
@@ -68,12 +66,12 @@ namespace MovieCollection.API.Controllers
         // POST-Delete
         public IActionResult DeletePost(int? id)
         {
-            var obj = _db.Users.Find(id);
+            var obj = _db.Countries.Find(id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _db.Users.Remove(obj);
+            _db.Countries.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
 
@@ -86,7 +84,7 @@ namespace MovieCollection.API.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Users.Find(id);
+            var obj = _db.Countries.Find(id);
             if (obj == null)
             {
                 return NotFound();
@@ -97,17 +95,16 @@ namespace MovieCollection.API.Controllers
         // POST-Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(User obj)
+        public IActionResult Update(Country obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Users.Update(obj);
+                _db.Countries.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(obj);
 
         }
-        */
     }
 }
