@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieCollection.BLL.DTO.Directors
+namespace MovieCollection.Common.DTO.Directors
 {
     public class DirectorDetailDTO
     {
@@ -16,6 +16,6 @@ namespace MovieCollection.BLL.DTO.Directors
         public string Nationality { get; set; }
         public string IsActive { get; set; }
         public string PicturePath { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        //public ICollection<Movie> Movies { get; set; }
     }
 }

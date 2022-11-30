@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieCollection.Common.DTO.Directors
+namespace MovieCollection.Common.DTO.Countries
 {
-    public class DirectorDTO
+    public class CountryDTO
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
     }
 }

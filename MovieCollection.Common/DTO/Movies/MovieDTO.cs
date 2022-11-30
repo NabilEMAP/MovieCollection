@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieCollection.BLL.DTO.Movies
+namespace MovieCollection.Common.DTO.Movies
 {
     public class MovieDTO
     {
