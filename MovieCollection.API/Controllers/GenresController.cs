@@ -7,107 +7,48 @@ using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class GenresController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GenresController : ControllerBase
     {
-        /*
-        //private readonly IGenresService _db;
-
-        //public GenresController(IGenresService genresService)
-        //{
-        //    _db = genresService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public GenresController(ApplicationDbContext db)
+        // GET api/Genre
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            _db = db;
+
+            return Ok();
         }
 
-        public IActionResult Index()
+        // GET api/Genre/1
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            IEnumerable<Genre> objList = _db.Genres;
-            return View(objList);
+            
+            return Ok();
         }
 
-        // GET-Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST-Create
+        // POST api/Genre
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Genre obj)
+        public async Task<IActionResult> Post(Genre genre)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Genres.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
+
+            return Ok();
         }
 
-        // GET-Delete
-        public IActionResult Delete(int? id)
+        // PUT api/Genre/1
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Genre genre)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+
+            return Ok();
         }
 
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
+        // DELETE api/Genre/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Genres.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
 
+            return Ok();
         }
-
-        // GET-Update
-        public IActionResult Update(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Genre obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Genres.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-
-        }
-        */
     }
 }
