@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MovieCollection.BLL\MovieCollection.BLL.csproj" />
+    <ProjectReference Include="..\MovieCollection.Common\MovieCollection.Common.csproj" />
     <ProjectReference Include="..\MovieCollection.DAL\MovieCollection.DAL.csproj" />
-    <ProjectReference Include="..\MovieCollection.DAL\MovieCollection.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,11 +11,24 @@ namespace MovieCollection.API.Controllers
     [ApiController]
     public class GenresController : ControllerBase
     {
+        private readonly IGenresService genreService;
+
+        public GenresController(IGenresService genreService)
+        {
+            this.genreService = genreService;
+        }
+
+        [HttpGet]
+        public IActionResult GetAll([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
+        {
+            return Ok(genreService.GetAll(pageNr, pageSize));
+        }
+        
+
         // GET api/Genre
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
             return Ok();
         }
 
@@ -24,7 +37,7 @@ namespace MovieCollection.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             
-            return Ok();
+            return Ok(await genreService.GetById(id));
         }
 
         // POST api/Genre
@@ -32,7 +45,7 @@ namespace MovieCollection.API.Controllers
         public async Task<IActionResult> Post(Genre genre)
         {
 
-            return Ok();
+            return Ok(await genreService.Add(genre));
         }
 
         // PUT api/Genre/1
@@ -40,14 +53,22 @@ namespace MovieCollection.API.Controllers
         public async Task<IActionResult> Put(Genre genre)
         {
 
-            return Ok();
+            return Ok(await genreService.Update(genre));
         }
 
         // DELETE api/Genre/1
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-
+            try
+            {
+                await genreService.Delete(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound();
+            }
             return Ok();
         }
     }
