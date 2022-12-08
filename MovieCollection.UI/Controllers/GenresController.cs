@@ -1,110 +1,83 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
+using MovieCollection.UI.Models;
+using Newtonsoft.Json;
 using System;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Net.Http.Headers;
 
 namespace MovieCollection.API.Controllers
 {
     public class GenresController : Controller
     {
-        //private readonly IGenresService _db;
+        string baseURL = "https://localhost:8001/api/";
 
-        //public GenresController(IGenresService genresService)
-        //{
-        //    _db = genresService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public GenresController(ApplicationDbContext db)
+        public async Task<IActionResult> Index()
         {
-            _db = db;
+            IList<GenreViewModel> genre = new List<GenreViewModel>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                
+                HttpResponseMessage getData = await client.GetAsync("Genres");
+
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    genre = JsonConvert.DeserializeObject<List<GenreViewModel>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Error calling WebAPI");
+                }
+                ViewData.Model = genre;
+            }
+            return View();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Create(GenreViewModel genre)
         {
-            IEnumerable<Genre> objList = _db.Genres;
-            return View(objList);
+            GenreViewModel obj = new GenreViewModel()
+            {
+                Name = genre.Name,
+            };
+
+            if (genre.Name != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseURL + "Genres/");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage getData = await client.PostAsJsonAsync<GenreViewModel>("addGenre", obj);
+
+                    if (getData.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index", "Genres");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error calling WebAPI");
+                    }
+                }
+            }
+            return View();
         }
 
-        // GET-Create
-        public IActionResult Create()
+        public async Task<IActionResult> Update()
         {
             return View();
         }
 
-        // POST-Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Genre obj)
+        public async Task<IActionResult> Delete()
         {
-            if (ModelState.IsValid)
-            {
-                _db.Genres.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
-
-        // GET-Delete
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Genres.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
-        }
-
-        // GET-Update
-        public IActionResult Update(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Genres.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Genre obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Genres.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-
+            return View();
         }
     }
 }

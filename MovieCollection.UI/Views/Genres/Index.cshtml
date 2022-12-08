@@ -1,4 +1,30 @@
-﻿@model IEnumerable<MovieCollection.DAL.Models.Genre>
+﻿@model IEnumerable<GenreViewModel>
+
+@{
+    ViewData["Title"] = "Fetching Data from WebAPI";
+}
+
+<table class"table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayName("Name")</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model){
+            <tr>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+@*@model IEnumerable<MovieCollection.DAL.Models.Genre>
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -50,4 +76,4 @@
     }
 
 
-</div>
+</div>*@

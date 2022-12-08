@@ -4,7 +4,7 @@ using MovieCollection.DAL.Models;
 using MovieCollection.UI.Models;
 using System.Diagnostics;
 
-namespace MovieCollection.API.Controllers
+namespace MovieCollection.UI.Controllers
 {
     public class HomeController : Controller
     {

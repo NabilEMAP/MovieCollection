@@ -4,7 +4,7 @@ using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using System;
 
-namespace MovieCollection.API.Controllers
+namespace MovieCollection.UI.Controllers
 {
     public class CountriesController : Controller
     {
