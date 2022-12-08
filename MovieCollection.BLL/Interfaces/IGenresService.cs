@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Genres;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IGenresService
     {
-        public IEnumerable<Genre> GetAll(int pageNr, int pageSize);
-        public Task<Genre> GetById(int id);
-        public Task<Genre> Add(Genre genre);
-        public Task Delete(int id);
-        public Task<Genre> Update(Genre genre);
+        public Task<IEnumerable<GenreDTO>> GetAll();
+        public Task<GenreDTO> GetById(int id);
+        public Task<GenreDTO> Add(CreateGenreDTO genre);
+        public Task<GenreDTO> Update(int id, UpdateGenreDTO genre);
+        public Task<int> Delete(int id);
     }
 }

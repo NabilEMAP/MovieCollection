@@ -10,9 +10,9 @@ namespace MovieCollection.DAL.Repositories
     public interface IGenericRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
-        ValueTask<T> GetByIdAsync(int id);
-        Task AddAsync(T entity);
-        void Update(T entity);
-        void Remove(T entity);
+        Task<T> GetByIdAsync(int id);
+        Task<T> Add(T entity);
+        Task<T> Update(T entity);
+        void Delete(T entity);
     }
 }

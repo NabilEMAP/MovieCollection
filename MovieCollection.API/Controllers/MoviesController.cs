@@ -5,7 +5,7 @@ using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class MoviesController : APIv1Controller
+    public class MoviesController : ControllerBase
     {
         /*
         private readonly IMoviesService moviesService;

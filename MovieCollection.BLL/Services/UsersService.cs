@@ -1,71 +1,81 @@
-﻿using MovieCollection.BLL.Exceptions;
-using MovieCollection.BLL.Interfaces;
-using MovieCollection.DAL.Contexts;
-using MovieCollection.DAL.Models;
-using MovieCollection.DAL.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using AutoMapper;
+//using MovieCollection.BLL.DTO.Users;
+//using MovieCollection.BLL.Exceptions;
+//using MovieCollection.BLL.Interfaces;
+//using MovieCollection.Common.DTO.Users;
+//using MovieCollection.DAL.Contexts;
+//using MovieCollection.DAL.Models;
+//using MovieCollection.DAL.UOW;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace MovieCollection.BLL.Services
-{
-    public class UsersService : IUsersService
-    {
-        private readonly IUnitOfWork uow;
-        public UsersService(IUnitOfWork uow)
-        {
-            this.uow = uow;
-        }
-        public async Task<User> Add(User user)
-        {
-            var _user = await uow.UsersRepository.GetByIdAsync(user.Id);
-            if (_user == null)
-                throw new RelationNotFoundException("the user was not found");
+//namespace MovieCollection.BLL.Services
+//{
+//    public class UsersService : IUsersService
+//    {
+//        public readonly IUnitOfWork _uow;
+//        public readonly IMapper _mapper;
 
-            uow.UsersRepository.AddAsync(user);
-            uow.Commit();
-            return user;
-        }
+//        public UsersService(IUnitOfWork uow, IMapper mapper)
+//        {
+//            _uow = uow;
+//            _mapper = mapper;
+//        }
 
-        public async Task Delete(int id)
-        {
-            var user = await uow.UsersRepository.GetByIdAsync(id);
-            if (user == null)
-                throw new KeyNotFoundException("the user was not found");
+//        public async Task<UserDTO> Add(CreateUserDTO entity)
+//        {
+//            var user = _mapper.Map<User>(entity);
+//            await _uow.UsersRepository.Add(user);
+//            await _uow.Save();
+//            return _mapper.Map<UserDTO>(user);
+//        }
 
-            uow.UsersRepository.Remove(user);
-            uow.Commit();
-        }
+//        public async Task<int> Delete(int id)
+//        {
+//            var toDeleteUser = await _uow.UsersRepository.GetByIdAsync(id);
+//            if (toDeleteUser == null)
+//            {
+//                throw new KeyNotFoundException("This user does not exists");
+//            }
 
-        public IEnumerable<User> GetAll(int pageNr, int pageSize)
-        {
-            return null; //uow.UsersRepository.GetAll(pageNr, pageSize);
-        }
+//            _uow.UsersRepository.Delete(toDeleteUser);
+//            _uow.Save();
+//            return 0;
+//        }
 
-        public IEnumerable<User> GetAll()
-        {
-            return null; // uow.UsersRepository.GetAllAsync();
-        }
+//        public async Task<IEnumerable<UserDTO>> GetAll()
+//        {
+//            var users = await _uow.UsersRepository.GetAllAsync();
+//            return _mapper.Map<IEnumerable<UserDTO>>(users);
+//        }
 
-        public async Task<User> GetById(int id)
-        {
-            return await uow.UsersRepository.GetByIdAsync(id);
-        }
+//        public async Task<UserDTO> GetById(int id)
+//        {
+//            var user = await _uow.UsersRepository.GetByIdAsync(id);
+//            return _mapper.Map<UserDTO>(user);
+//        }
 
-        public async Task<User> Update(User user)
-        {
-            var existing = await uow.UsersRepository.GetByIdAsync(user.Id);
-            if (existing == null)
-                throw new KeyNotFoundException("the user was not found");
+//        public async Task<UserDTO> Update(int id, UpdateUserDTO entity)
+//        {
+//            var userFromRequest = _mapper.Map<User>(entity);
+//            var userToUpdate = await _uow.UsersRepository.GetByIdAsync(id);
 
-            existing.FirstName = user.FirstName;
-            existing.LastName = user.LastName;
-            existing.Email = user.Email;
-            existing.IsActive = user.IsActive;            
-            uow.Commit();
-            return existing;
-        }
-    }
-}
+//            if (userToUpdate == null)
+//            {
+//                throw new KeyNotFoundException("This user does not exist");
+//            }
+
+//            userToUpdate.FirstName = userFromRequest.FirstName;
+//            userToUpdate.LastName = userFromRequest.LastName;
+//            userToUpdate.Email = userFromRequest.Email;
+//            userToUpdate.IsActive = userFromRequest.IsActive;
+
+//            await _uow.UsersRepository.Update(userToUpdate);
+//            await _uow.Save();
+//            return _mapper.Map<UserDTO>(userToUpdate);
+//        }
+//    }
+//}

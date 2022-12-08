@@ -12,15 +12,21 @@ namespace MovieCollection.DAL.Repositories
 {
     public class GenresRepository : GenericRepository<Genre>, IGenresRepository
     {
-        private readonly ApplicationDbContext context;
-
         public GenresRepository(ApplicationDbContext context) : base(context)
         {
         }
 
+        public async Task<Genre> GetGenreByIdAsync(int id)
+        {
+            return await _context.Genres.FirstOrDefaultAsync(genre => genre.Id == id);
+        }
+
         public async Task<Genre> GetGenreByName(string name)
         {
-            return await context.Genres.Where(x => x.Name == name).FirstOrDefaultAsync();
+            return await _context.Genres.Where(x => x.Name == name).FirstOrDefaultAsync();
         }
+
+
+
     }
 }

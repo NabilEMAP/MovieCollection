@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
-using MovieCollection.DAL.Contexts;
+using MovieCollection.BLL.Services;
+using MovieCollection.Common.DTO;
+using MovieCollection.Common.DTO.Genres;
 using MovieCollection.DAL.Models;
-using System;
 
 namespace MovieCollection.API.Controllers
 {
@@ -11,65 +12,76 @@ namespace MovieCollection.API.Controllers
     [ApiController]
     public class GenresController : ControllerBase
     {
-        private readonly IGenresService genreService;
+        private readonly IGenresService _genresService;
 
-        public GenresController(IGenresService genreService)
+        public GenresController(IGenresService genresService)
         {
-            this.genreService = genreService;
+            _genresService = genresService;
         }
-
-        [HttpGet]
-        public IActionResult GetAll([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
-        {
-            return Ok(genreService.GetAll(pageNr, pageSize));
-        }
-        
 
         // GET api/Genre
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            var genre = await _genresService.GetAll();
+            if (genre == null)
+            {
+                return NotFound();
+            }
+            return Ok(genre);
         }
 
         // GET api/Genre/1
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            
-            return Ok(await genreService.GetById(id));
+            var genre = await _genresService.GetById(id);
+            if (genre == null)
+            {
+                return NotFound();
+            }
+            return Ok(genre);
         }
 
         // POST api/Genre
         [HttpPost]
-        public async Task<IActionResult> Post(Genre genre)
-        {
-
-            return Ok(await genreService.Add(genre));
-        }
-
-        // PUT api/Genre/1
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Genre genre)
-        {
-
-            return Ok(await genreService.Update(genre));
-        }
-
-        // DELETE api/Genre/1
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Post([FromBody] CreateGenreDTO genre)
         {
             try
             {
-                await genreService.Delete(id);
-                return NoContent();
+                await _genresService.Add(genre);
             }
-            catch (KeyNotFoundException ex)
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(genre);
+        }
+
+        //PUT api/Genre/1
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, UpdateGenreDTO genre)
+        {
+            if (genre == null)
             {
                 return NotFound();
             }
-            return Ok();
+            await _genresService.Update(id, genre);
+            return Ok(genre);
         }
+
+        //DELETE api/Genre/1
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var genre = await _genresService.GetById(id);
+            if (genre == null)
+            {
+                return NotFound();
+            }
+            await _genresService.Delete(id);
+            return NoContent();
+        }
+
     }
 }

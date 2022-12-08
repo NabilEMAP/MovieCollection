@@ -10,35 +10,38 @@ namespace MovieCollection.DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly ApplicationDbContext context;
-        
+        protected readonly ApplicationDbContext _context;
         public GenericRepository(ApplicationDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
-        public async Task AddAsync(T entity)
+
+        public async Task<T> Add(T entity)
         {
-            await context.Set<T>().AddAsync(entity);
+            _context.Set<T>().Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await context.Set<T>().ToListAsync();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public async ValueTask<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            return await context.Set<T>().FindAsync(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
-        public void Remove(T entity)
+        public Task<T> Update(T entity)
         {
-            context.Set<T>().Remove(entity);
-        }
-
-        public void Update(T entity)
-        {
-            context.Set<T>().Update(entity);
+            _context.Set<T>().Update(entity);
+            return Task.FromResult(entity);
         }
     }
 }
