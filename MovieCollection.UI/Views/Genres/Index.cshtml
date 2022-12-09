@@ -1,43 +1,4 @@
-﻿@*@model IEnumerable<MovieCollection.UI.Models.GenreViewModel>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Genre</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create");
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>Changes</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model){
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) 
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>*@
-
-
-
-
-
-
-@model IEnumerable<MovieCollection.UI.Models.GenreViewModel>
+﻿@model IEnumerable<MovieCollection.UI.Models.GenreViewModel>
 
 <div class="container p-3">
     <div class="row pt-4">
