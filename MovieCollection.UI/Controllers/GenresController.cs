@@ -69,7 +69,7 @@ namespace MovieCollection.API.Controllers
         {
             string data = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PutAsync(client.BaseAddress + "/Genres/" + model.Id, content).Result;
+            HttpResponseMessage response = client.PutAsync(client.BaseAddress + "/Genres?id=" + model.Id, content).Result;
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -96,7 +96,7 @@ namespace MovieCollection.API.Controllers
         public IActionResult Delete(GenreViewModel model)
         {
             string data = JsonConvert.SerializeObject(model);
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + "/Genres/" + model.Id).Result;
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + "/Genres?id=" + model.Id).Result;
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
