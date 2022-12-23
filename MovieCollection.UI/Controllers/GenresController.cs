@@ -62,7 +62,7 @@ namespace MovieCollection.API.Controllers
             return View(model);
         }
 
-        // PUT-Update
+        // POST-Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(GenreViewModel model)
