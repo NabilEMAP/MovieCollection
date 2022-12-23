@@ -12,7 +12,6 @@ namespace MovieCollection.DAL.Repositories
 {
     public class CountriesRepository : GenericRepository<Country>, ICountriesRepository
     {
-        private readonly ApplicationDbContext context;
 
         public CountriesRepository(ApplicationDbContext context) : base(context)
         {
@@ -20,7 +19,7 @@ namespace MovieCollection.DAL.Repositories
 
         public async Task<Country> GetByName(string name)
         {
-            return await context.Countries.Where(x => x.Name == name).FirstOrDefaultAsync();
+            return await _context.Countries.Where(x => x.Name == name).FirstOrDefaultAsync();
         }
     }
 }
