@@ -1,31 +1,32 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MovieCollection.DAL.Contexts;
-using MovieCollection.DAL.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using MovieCollection.UI.Models;
+using Newtonsoft.Json;
 using System;
+using System.Text;
 
 namespace MovieCollection.UI.Controllers
 {
     public class CountriesController : Controller
     {
-        //private readonly ICountriesService _db;
+        Uri baseAddress = new Uri("https://localhost:8001/api");
+        HttpClient client;
 
-        //public CountriesController(ICountriesService countriesService)
-        //{
-        //    _db = countriesService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public CountriesController(ApplicationDbContext db)
+        public CountriesController()
         {
-            _db = db;
+            client = new HttpClient();
+            client.BaseAddress = baseAddress;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Country> objList = _db.Countries;
-            return View(objList);
+            List<CountryViewModel> modelList = new List<CountryViewModel>();
+            HttpResponseMessage response = client.GetAsync(baseAddress + "/Countries").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                modelList = JsonConvert.DeserializeObject<List<CountryViewModel>>(data);
+            }
+            return View(modelList);
         }
 
         // GET-Create
@@ -37,74 +38,71 @@ namespace MovieCollection.UI.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Country obj)
+        public IActionResult Create(CountryViewModel model)
         {
-            if (ModelState.IsValid)
+            string data = JsonConvert.SerializeObject(model);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(baseAddress + "/Countries", content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                _db.Countries.Add(obj);
-                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
-        }
-
-        // GET-Delete
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Countries.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
+            return View();
         }
 
         // GET-Update
-        public IActionResult Update(int? id)
+        public IActionResult Update(int id)
         {
-            if (id == null || id == 0)
+            CountryViewModel model = new CountryViewModel();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Countries/" + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                string data = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<CountryViewModel>(data);
             }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            return View(model);
         }
 
         // POST-Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Country obj)
+        public IActionResult Update(CountryViewModel model)
         {
-            if (ModelState.IsValid)
+            string data = JsonConvert.SerializeObject(model);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PutAsync(client.BaseAddress + "/Countries?id=" + model.Id, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                _db.Countries.Update(obj);
-                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(model);
+        }
 
+        //GET-Delete
+        public IActionResult Delete(int id)
+        {
+            CountryViewModel model = new CountryViewModel();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Countries/" + id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<CountryViewModel>(data);
+            }
+            return View(model);
+        }
+
+        // POST-Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(CountryViewModel model)
+        {
+            string data = JsonConvert.SerializeObject(model);
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + "/Countries?id=" + model.Id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

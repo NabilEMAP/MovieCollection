@@ -29,6 +29,7 @@ namespace MovieCollection.DAL.Extensions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<IGenresRepository, GenresRepository>();
             return services;
         }

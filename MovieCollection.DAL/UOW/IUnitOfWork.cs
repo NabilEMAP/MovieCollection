@@ -9,7 +9,7 @@ namespace MovieCollection.DAL.UOW
 {
     public interface IUnitOfWork
     {
-        //public ICountriesRepository CountriesRepository { get; }
+        public ICountriesRepository CountriesRepository { get; }
         //public IDirectorsRepository DirectorsRepository { get; }
         public IGenresRepository GenresRepository { get; }
         //public IMoviesRepository MoviesRepository { get; }
