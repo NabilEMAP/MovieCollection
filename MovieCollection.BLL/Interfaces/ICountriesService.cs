@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Countries;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface ICountriesService
     {
-        public IEnumerable<Country> GetAll(int pageNr, int pageSize);
-        public Task<Country> GetById(int id);
-        public Task<Country> Add(Country country);
-        public Task Delete(int id);
-        public Task<Country> Update(Country country);
+        public Task<IEnumerable<CountryDTO>> GetAll();
+        public Task<CountryDTO> GetById(int id);
+        public Task<CountryDTO> Add(CreateCountryDTO country);
+        public Task<CountryDTO> Update(int id, UpdateCountryDTO country);
+        public Task<int> Delete(int id);
     }
 }

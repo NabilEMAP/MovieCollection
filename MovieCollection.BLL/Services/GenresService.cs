@@ -35,9 +35,8 @@ namespace MovieCollection.BLL.Services
             var toDeleteGenre = await _uow.GenresRepository.GetByIdAsync(id);
             if (toDeleteGenre == null)
             {
-                throw new KeyNotFoundException("This genre does not exists");
+                throw new KeyNotFoundException("This genre does not exist.");
             }
-
             _uow.GenresRepository.Delete(toDeleteGenre);
             _uow.Save();
             return 0;
