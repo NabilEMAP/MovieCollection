@@ -15,7 +15,7 @@ namespace MovieCollection.BLL.Extensions
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            //services.AddScoped<ICountriesService, CountriesService>();
+            services.AddScoped<ICountriesService, CountriesService>();
             //services.AddScoped<IDirectorsService, DirectorsService>();
             services.AddScoped<IGenresService, GenresService>();
             //services.AddScoped<IMoviesService, MoviesService>();
