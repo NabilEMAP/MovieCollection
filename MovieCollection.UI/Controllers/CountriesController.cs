@@ -8,103 +8,14 @@ namespace MovieCollection.UI.Controllers
 {
     public class CountriesController : Controller
     {
-        //private readonly ICountriesService _db;
+        Uri baseAddress = new Uri("https://localhost:8001/api");
+        HttpClient client;
 
-        //public CountriesController(ICountriesService countriesService)
-        //{
-        //    _db = countriesService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public CountriesController(ApplicationDbContext db)
+        public CountriesController()
         {
-            _db = db;
+            client = new HttpClient();
+            client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index()
-        {
-            IEnumerable<Country> objList = _db.Countries;
-            return View(objList);
-        }
-
-        // GET-Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST-Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Country obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Countries.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
-
-        // GET-Delete
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Countries.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
-        }
-
-        // GET-Update
-        public IActionResult Update(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Country obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Countries.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-
-        }
     }
 }

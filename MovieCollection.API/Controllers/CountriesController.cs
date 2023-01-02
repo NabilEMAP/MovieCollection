@@ -1,113 +1,80 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.Common.DTO.Countries;
 using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class CountriesController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CountriesController : ControllerBase
     {
-        /*
-        //private readonly ICountriesService _db;
+        private readonly ICountriesService _countriesServices;
 
-        //public CountriesController(ICountriesService countriesService)
-        //{
-        //    _db = countriesService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public CountriesController(ApplicationDbContext db)
+        public CountriesController(ICountriesService countriesService)
         {
-            _db = db;
+            _countriesServices = countriesService;
         }
 
-        public IActionResult Index()
+        // GET api/Country
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Country> objList = _db.Countries;
-            return View(objList);
+            var countries = await _countriesServices.GetAll();
+            if(countries == null) { return NotFound(); }
+            return Ok(countries);
         }
 
-        // GET-Create
-        public IActionResult Create()
+        // GET api/Country/1
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return View();
+            var countries = await _countriesServices.GetById(id);
+            if (countries == null) { return NotFound(); }
+            return Ok(countries);
         }
 
-        // POST-Create
+        // POST api/Genre
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Country obj)
+        public async Task<IActionResult> Post([FromBody] CreateCountryDTO country)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _db.Countries.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                await _countriesServices.Add(country);
             }
-            return View(obj);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(country);
         }
 
-        // GET-Delete
-        public IActionResult Delete(int? id)
+        // PUT api/Country/1
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, UpdateCountryDTO country)
         {
-            if (id == null || id == 0)
+            if(country == null)
             {
                 return NotFound();
             }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            await _countriesServices.Update(id, country);
+            return Ok(country);
         }
 
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
+        // DELETE api/Country/1
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
         {
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
+            var country = await _countriesServices.GetById(id);
+            if (country == null)
             {
                 return NotFound();
             }
-            _db.Countries.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
+            await _countriesServices.Delete(id);
+            return NoContent();
         }
-
-        // GET-Update
-        public IActionResult Update(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Countries.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Country obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Countries.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-
-        }
-        */
     }
 }
