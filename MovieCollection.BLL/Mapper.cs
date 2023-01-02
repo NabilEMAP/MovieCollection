@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieCollection.Common.DTO.Countries;
 using MovieCollection.Common.DTO.Genres;
 using MovieCollection.DAL.Models;
 using System;
@@ -16,7 +17,9 @@ namespace MovieCollection.BLL
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Genre, CreateGenreDTO>().ReverseMap();
             CreateMap<Genre, UpdateGenreDTO>().ReverseMap();
+            CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Country, CreateCountryDTO>().ReverseMap();
+            CreateMap<Country, UpdateCountryDTO>().ReverseMap();
         }
-
     }
 }
