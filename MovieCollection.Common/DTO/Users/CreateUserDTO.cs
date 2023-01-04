@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieCollection.Common.DTO.Movies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace MovieCollection.Common.DTO.Users
         public string LastName { get; set; }
         public string Email { get; set; }
         public string IsActive { get; set; }
+        //public IEnumerable<MovieDetailDTO> Movies { get; set; }
     }
 }

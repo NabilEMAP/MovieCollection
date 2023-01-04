@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Movies;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace MovieCollection.BLL.DTO.Users
         public string LastName { get; set; }
         public string Email { get; set; }
         public string IsActive { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        //public IEnumerable<MovieDetailDTO> Movies { get; set; }
     }
 }

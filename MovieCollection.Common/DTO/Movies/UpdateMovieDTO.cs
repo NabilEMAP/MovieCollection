@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace MovieCollection.Common.DTO.Movies
 {
-    public class MovieDetailDTO
+    public class UpdateMovieDTO
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int DirectorId { get; set; }

@@ -8,6 +8,6 @@ namespace MovieCollection.DAL.Models
 
         public string Name { get; set; }
 
-        //public ICollection<Movie> Movies { get; set; }
+        //public IEnumerable<Movie> Movies { get; set; }
     }
 }
