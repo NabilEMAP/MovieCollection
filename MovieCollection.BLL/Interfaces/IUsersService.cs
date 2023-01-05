@@ -1,4 +1,5 @@
-﻿using MovieCollection.Common.DTO.Users;
+﻿using MovieCollection.BLL.DTO.Users;
+using MovieCollection.Common.DTO.Users;
 using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,10 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IUsersService
     {
-        //public IEnumerable<User> GetAll(int pageNr, int pageSize);
-        public Task<IEnumerable<UserDTO>> GetAll();
-        public Task<UserDTO> GetById(int id);
-        public Task<UserDTO> Add(CreateUserDTO user);
-        public Task<UserDTO> Update(int id, UpdateUserDTO user);
+        public Task<IEnumerable<UserDetailDTO>> GetAll();
+        public Task<UserDetailDTO> GetById(int id);
+        public Task<UserDetailDTO> Add(CreateUserDTO user);
+        public Task<UserDetailDTO> Update(int id, UpdateUserDTO user);
         public Task<int> Delete(int id);
         
     }
