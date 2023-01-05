@@ -1,113 +1,81 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
-using MovieCollection.DAL.Contexts;
-using MovieCollection.DAL.Models;
+using MovieCollection.Common.DTO.Directors;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
-    public class DirectorsController : Controller
+    public class DirectorsController : ControllerBase
     {
-        /*
-        //private readonly IDirectorsService _db;
+        private readonly IDirectorsService _directorsService;
 
-        //public DirectorsController(IDirectorsService directorsService)
-        //{
-        //    _db = directorsService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public DirectorsController(ApplicationDbContext db)
+        public DirectorsController(IDirectorsService directorsService)
         {
-            _db = db;
+            _directorsService = directorsService;
         }
 
-        public IActionResult Index()
+        // GET api/Director
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Director> objList = _db.Directors;
-            return View(objList);
+            var director = await _directorsService.GetAll();
+            if (director == null)
+            {
+                return NotFound();
+            }
+            return Ok(director);
         }
 
-        // GET-Create
-        public IActionResult Create()
+        // GET api/Director/1
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return View();
+            var director = await _directorsService.GetById(id);
+            if (director == null)
+            {
+                return NotFound();
+            }
+            return Ok(director);
         }
 
-        // POST-Create
+        // POST api/Director
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Director obj)
+        public async Task<IActionResult> Post([FromBody] CreateDirectorDTO director)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _db.Directors.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                await _directorsService.Add(director);
             }
-            return View(obj);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(director);
         }
 
-        // GET-Delete
-        public IActionResult Delete(int? id)
+        //PUT api/Director/1
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, UpdateDirectorDTO director)
         {
-            if (id == null || id == 0)
+            if (director == null)
             {
                 return NotFound();
             }
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            await _directorsService.Update(id, director);
+            return Ok(director);
         }
 
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
+        //DELETE api/Director/1
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
         {
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
+            var director = await _directorsService.GetById(id);
+            if (director == null)
             {
                 return NotFound();
             }
-            _db.Directors.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
+            await _directorsService.Delete(id);
+            return NoContent();
         }
-
-        // GET-Update
-        public IActionResult Update(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Update
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Director obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Directors.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-
-        }
-        */
     }
 }
