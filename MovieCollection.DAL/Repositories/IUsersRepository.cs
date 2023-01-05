@@ -9,6 +9,9 @@ namespace MovieCollection.DAL.Repositories
 {
     public interface IUsersRepository : IGenericRepository<User>
     {
+        Task<User> OrderByLastName(string lastName);
+        Task<User> OrderByFirstName(string firstName);
         Task<User> GetByLastName(string lastName);
+        Task<User> GetByFirstName(string firstName);
     }
 }

@@ -17,6 +17,11 @@ namespace MovieCollection.DAL.Repositories
         {
         }
 
+        public async Task<Country> OrderByName(string name)
+        {
+            return await _context.Countries.OrderBy(x => x.Name == name).FirstOrDefaultAsync();
+        }
+
         public async Task<Country> GetByName(string name)
         {
             return await _context.Countries.Where(x => x.Name == name).FirstOrDefaultAsync();
