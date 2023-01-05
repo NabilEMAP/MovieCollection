@@ -6,6 +6,8 @@ using System;
 
 namespace MovieCollection.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
