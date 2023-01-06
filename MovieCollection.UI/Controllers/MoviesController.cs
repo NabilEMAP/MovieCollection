@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.Common.DTO.Countries;
+using MovieCollection.Common.DTO.Directors;
 using MovieCollection.UI.Models;
 using Newtonsoft.Json;
 using System;
@@ -70,13 +72,23 @@ namespace MovieCollection.UI.Controllers
         public IActionResult Update(int id)
         {
             MovieViewModel model = new MovieViewModel();
+            List<CountryViewModel> countryList = new List<CountryViewModel>();
+            List<DirectorViewModel> directorList = new List<DirectorViewModel>();
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Movies/" + id).Result;
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage countryResponse = client.GetAsync(baseAddress + "/Countries").Result;
+            HttpResponseMessage directorResponse = client.GetAsync(baseAddress + "/Directors").Result;
+            if (response.IsSuccessStatusCode && countryResponse.IsSuccessStatusCode && directorResponse.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
+                string countryData = countryResponse.Content.ReadAsStringAsync().Result;
+                string directorData = directorResponse.Content.ReadAsStringAsync().Result;
                 model = JsonConvert.DeserializeObject<MovieViewModel>(data);
+                countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(countryData);
+                directorList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
             }
-            return View(model);
+            ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
+            ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
+            return View(model);            
         }
 
         // POST-Update
@@ -98,12 +110,22 @@ namespace MovieCollection.UI.Controllers
         public IActionResult Delete(int id)
         {
             MovieViewModel model = new MovieViewModel();
+            List<CountryViewModel> countryList = new List<CountryViewModel>();
+            List<DirectorViewModel> directorList = new List<DirectorViewModel>();
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Movies/" + id).Result;
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage countryResponse = client.GetAsync(baseAddress + "/Countries").Result;
+            HttpResponseMessage directorResponse = client.GetAsync(baseAddress + "/Directors").Result;
+            if (response.IsSuccessStatusCode && countryResponse.IsSuccessStatusCode && directorResponse.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
+                string countryData = countryResponse.Content.ReadAsStringAsync().Result;
+                string directorData = directorResponse.Content.ReadAsStringAsync().Result;
                 model = JsonConvert.DeserializeObject<MovieViewModel>(data);
+                countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(countryData);
+                directorList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
             }
+            ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
+            ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
             return View(model);
         }
 
