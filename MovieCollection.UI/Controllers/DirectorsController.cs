@@ -2,30 +2,34 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
+using MovieCollection.UI.Models;
+using Newtonsoft.Json;
 using System;
+using System.Text;
 
 namespace MovieCollection.UI.Controllers
 {
     public class DirectorsController : Controller
     {
-        //private readonly IDirectorsService _db;
+        Uri baseAddress = new Uri("https://localhost:8001/api");
+        HttpClient client;
 
-        //public DirectorsController(IDirectorsService directorsService)
-        //{
-        //    _db = directorsService;
-        //}
-
-        private readonly ApplicationDbContext _db;
-
-        public DirectorsController(ApplicationDbContext db)
+        public DirectorsController()
         {
-            _db = db;
+            client = new HttpClient();
+            client.BaseAddress = baseAddress;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Director> objList = _db.Directors;
-            return View(objList);
+            List<DirectorViewModel> modelList = new List<DirectorViewModel>();
+            HttpResponseMessage response = client.GetAsync(baseAddress + "/Directors").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                modelList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(data);
+            }
+            return View(modelList);
         }
 
         // GET-Create
@@ -37,74 +41,71 @@ namespace MovieCollection.UI.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Director obj)
+        public IActionResult Create(DirectorViewModel model)
         {
-            if (ModelState.IsValid)
+            string data = JsonConvert.SerializeObject(model);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(baseAddress + "/Directors", content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                _db.Directors.Add(obj);
-                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
-        }
-
-        // GET-Delete
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
-        }
-
-        // POST-Delete
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Directors.Remove(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-
+            return View();
         }
 
         // GET-Update
-        public IActionResult Update(int? id)
+        public IActionResult Update(int id)
         {
-            if (id == null || id == 0)
+            DirectorViewModel model = new DirectorViewModel();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Directors/" + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                string data = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<DirectorViewModel>(data);
             }
-            var obj = _db.Directors.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            return View(model);
         }
 
         // POST-Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Director obj)
+        public IActionResult Update(DirectorViewModel model)
         {
-            if (ModelState.IsValid)
+            string data = JsonConvert.SerializeObject(model);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PutAsync(client.BaseAddress + "/Directors?id=" + model.Id, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                _db.Directors.Update(obj);
-                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(model);
+        }
 
+        //GET-Delete
+        public IActionResult Delete(int id)
+        {
+            DirectorViewModel model = new DirectorViewModel();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Directors/" + id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<DirectorViewModel>(data);
+            }
+            return View(model);
+        }
+
+        // POST-Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(DirectorViewModel model)
+        {
+            string data = JsonConvert.SerializeObject(model);
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + "/Directors?id=" + model.Id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

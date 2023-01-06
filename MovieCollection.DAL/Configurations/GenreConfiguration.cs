@@ -27,6 +27,8 @@ namespace MovieCollection.DAL.Configurations
             builder.Property(p => p.Name)
                     .IsRequired()
                     .HasColumnType("varchar(25)");
+
+
         }
     }
 }
