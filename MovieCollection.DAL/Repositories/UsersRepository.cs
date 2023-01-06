@@ -16,16 +16,6 @@ namespace MovieCollection.DAL.Repositories
         {
         }
 
-        public async Task<User> OrderByLastName(string lastName)
-        {
-            return await _context.Users.OrderBy(x => x.LastName == lastName).FirstOrDefaultAsync();
-        }
-
-        public async Task<User> OrderByFirstName(string firstName)
-        {
-            return await _context.Users.OrderBy(x => x.FirstName == firstName).FirstOrDefaultAsync();
-        }
-
         public async Task<User> GetByLastName(string lastName)
         {
             return await _context.Users.Where(x => x.LastName == lastName).FirstOrDefaultAsync();

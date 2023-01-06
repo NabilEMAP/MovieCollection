@@ -15,44 +15,25 @@ namespace MovieCollection.DAL.Repositories
         public MoviesRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public async Task<Movie> OrderByTitle(string title)
-        {
-            return await _context.Movies.OrderBy(s => s.Title == title).FirstOrDefaultAsync();
-        }
-
-        public async Task<Movie> OrderByCountry(Country country)
-        {
-            return await _context.Movies.OrderBy(s => s.Country == country).FirstOrDefaultAsync();
-        }
-
-        public async Task<Movie> OrderByReleaseDate(DateTime releaseDate)
-        {
-            return await _context.Movies.OrderBy(s => s.ReleaseDate == releaseDate).FirstOrDefaultAsync();
-        }
-
-        //public async Task<Movie> OrderByGenre(IEnumerable<Genre> genres)
-        //{
-        //    return await _context.Movies.Where(s => s.Genres == genres).FirstOrDefaultAsync();
-        //}
 
         public async Task<Movie> GetByTitle(string title)
         {
             return await _context.Movies.Where(s => s.Title == title).FirstOrDefaultAsync();
         }
 
-        public async Task<Movie> GetByCountry(Country country)
-        {
-            return await _context.Movies.Where(s => s.Country == country).FirstOrDefaultAsync();
-        }
+        //public async Task<Movie> GetByCountry(Country country)
+        //{
+        //    return await _context.Movies.Where(s => s.Country == country).FirstOrDefaultAsync();
+        //}
 
         //public async Task<Movie> GetByGenre(IEnumerable<Genre> genres)
         //{
         //    return await _context.Movies.Where(s => s.Genres == genres).FirstOrDefaultAsync();
         //}
 
-        public async Task<Movie> GetByDirector(Director director)
-        {
-            return await _context.Movies.Where(s => s.Director == director).FirstOrDefaultAsync();
-        }
+        //public async Task<Movie> GetByDirector(Director director)
+        //{
+        //    return await _context.Movies.Where(s => s.Director == director).FirstOrDefaultAsync();
+        //}
     }
 }

@@ -30,23 +30,5 @@ namespace MovieCollection.DAL.Repositories
         {
             return await _context.Genres.Where(x => x.Name == name).FirstOrDefaultAsync();
         }
-
-        //public async Task<Genre> OrderByMovies(IEnumerable<Movie> movies)
-        //{
-        //    return await _context.Genres.OrderBy(s => s.Movies == movies).FirstOrDefaultAsync();
-        //}
-
-        public async Task<Genre> OrderByIdAsync(int id)
-        {
-            return await _context.Genres.OrderBy(genre => genre.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<Genre> OrderByName(string name)
-        {
-            return await _context.Genres.OrderBy(x => x.Name == name).FirstOrDefaultAsync();
-        }
-
-
-
     }
 }

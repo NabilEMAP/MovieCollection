@@ -9,7 +9,6 @@ namespace MovieCollection.DAL.Repositories
 {
     public interface ICountriesRepository : IGenericRepository<Country>
     {
-        Task<Country> OrderByName(string name);
         Task<Country> GetByName(string name);
     }
 }

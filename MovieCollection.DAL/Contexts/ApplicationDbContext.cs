@@ -40,6 +40,7 @@ namespace MovieCollection.DAL.Contexts
             modelBuilder.Entity<Director>().Seed();
             modelBuilder.Entity<Genre>().Seed();
             modelBuilder.Entity<User>().Seed();
+            modelBuilder.Entity<Movie>().Seed();
         }
     }
 }

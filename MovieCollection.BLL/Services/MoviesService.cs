@@ -68,9 +68,7 @@ namespace MovieCollection.BLL.Services
             movieToUpdate.Title = movieFromRequest.Title;
             movieToUpdate.ReleaseDate = movieFromRequest.ReleaseDate;
             movieToUpdate.DirectorId = movieFromRequest.DirectorId;
-            movieToUpdate.Director = movieFromRequest.Director;
             movieToUpdate.CountryId = movieFromRequest.CountryId;
-            movieToUpdate.Country = movieFromRequest.Country;
 
             await _uow.MoviesRepository.Update(movieToUpdate);
             await _uow.Save();

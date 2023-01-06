@@ -1221,10 +1221,6 @@ namespace MovieCollection.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("DirectorId");
-
                     b.HasIndex("Id")
                         .IsUnique();
 
@@ -1235,6 +1231,48 @@ namespace MovieCollection.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("tblMovies", "Movie");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 187,
+                            DirectorId = 1,
+                            ReleaseDate = new DateTime(2003, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Bad Boys 2"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryId = 186,
+                            DirectorId = 2,
+                            ReleaseDate = new DateTime(2020, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Tenet"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountryId = 186,
+                            DirectorId = 3,
+                            ReleaseDate = new DateTime(1979, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Aliens"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CountryId = 187,
+                            DirectorId = 4,
+                            ReleaseDate = new DateTime(2011, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Midnight in Paris"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CountryId = 124,
+                            DirectorId = 5,
+                            ReleaseDate = new DateTime(2005, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "King Kong"
+                        });
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.User", b =>
@@ -1312,25 +1350,6 @@ namespace MovieCollection.DAL.Migrations
                             IsActive = "No",
                             LastName = "Waez"
                         });
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
-                {
-                    b.HasOne("MovieCollection.DAL.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieCollection.DAL.Models.Director", "Director")
-                        .WithMany()
-                        .HasForeignKey("DirectorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Director");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,9 +9,6 @@ namespace MovieCollection.DAL.Repositories
 {
     public interface IDirectorsRepository : IGenericRepository<Director>
     {
-        Task<Director> OrderByNationality(string nationality);
-        Task<Director> OrderByLastName(string lastName);
-        Task<Director> OrderByFirstName(string firstName);
         Task<Director> GetByNationality(string nationality);
         Task<Director> GetByLastName(string lastName);
         Task<Director> GetByFirstName(string firstName);

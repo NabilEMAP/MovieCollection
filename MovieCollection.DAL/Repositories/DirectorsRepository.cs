@@ -16,21 +16,6 @@ namespace MovieCollection.DAL.Repositories
         {
         }
 
-        public async Task<Director> OrderByNationality(string nationality)
-        {
-            return await _context.Directors.OrderBy(s => s.Nationality == nationality).FirstOrDefaultAsync();
-        }
-
-        public async Task<Director> OrderByLastName(string lastName)
-        {
-            return await _context.Directors.OrderBy(s => s.LastName == lastName).FirstOrDefaultAsync();
-        }
-
-        public async Task<Director> OrderByFirstName(string firstName)
-        {
-            return await _context.Directors.OrderBy(s => s.FirstName == firstName).FirstOrDefaultAsync();
-        }
-
         public async Task<Director> GetByNationality(string nationality)
         {
             return await _context.Directors.Where(s => s.Nationality == nationality).FirstOrDefaultAsync();
