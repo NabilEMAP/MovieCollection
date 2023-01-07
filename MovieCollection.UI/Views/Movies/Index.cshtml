@@ -20,7 +20,8 @@
                     <th>Title</th>
                     <th>Release Date</th>
                     <th>Country</th>
-                    <th>Director</th>                    
+                    <th>Director</th> 
+                    <th>Changes</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,15 +29,15 @@
                 {
                     <tr>
                         <td width="10%">@movie.Id</td>
-                        <td width="70%">@movie.Title</td>
-                        <td width="10%">@movie.ReleaseDate</td>
-                        <td width="10%">@movie.CountryId</td>
+                        <td width="50%">@movie.Title</td>
+                        <td width="20%">@movie.ReleaseDate</td>
+                        <td width="10%">@movie.Country.Name</td>
                         <td width="10%">@movie.DirectorId</td>
 
-@*
-                        <td width="70%">@movie.Country.Name</td>
-                        <td width="70%">@movie.Director.FirstName @movie.Director.LastName</td>
-*@
+
+                        @*<td width="70%">@movie.Country.Name</td>*@
+                        @*<td width="70%">@movie.Director.FirstName @movie.Director.LastName</td>*@
+
                         <td width="20%">
                             <div class="w-100 btn-group" role="group">
                                 <a asp-controller="Movies" asp-action="Update" asp-route-Id="@movie.Id" class="btn btn-primary mx-1">Update</a>
