@@ -25,12 +25,14 @@ namespace MovieCollection.UI.Controllers
         public IActionResult Index()
         {
             List<MovieViewModel> modelList = new List<MovieViewModel>();
+            
             HttpResponseMessage response = client.GetAsync(baseAddress + "/Movies").Result;
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
                 modelList = JsonConvert.DeserializeObject<List<MovieViewModel>>(data);
             }
+
             return View(modelList);
         }
 

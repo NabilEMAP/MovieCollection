@@ -35,6 +35,16 @@ namespace MovieCollection.DAL.Configurations
                     .IsRequired()
                     .HasColumnType("date");
 
+            builder.HasOne(p => p.Director)
+                    .WithMany()
+                    .HasForeignKey(p => p.DirectorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.Country)
+                    .WithMany()
+                    .HasForeignKey(p => p.CountryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(p => p.DirectorId)
                     .HasColumnType("int");
 

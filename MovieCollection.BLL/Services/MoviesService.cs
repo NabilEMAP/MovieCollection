@@ -45,7 +45,7 @@ namespace MovieCollection.BLL.Services
 
         public async Task<IEnumerable<MovieDetailDTO>> GetAll()
         {
-            var movies = await _uow.MoviesRepository.GetAllAsync();
+            var movies = await _uow.MoviesRepository.GetAllMoviesAsync();
             return _mapper.Map<IEnumerable<MovieDetailDTO>>(movies);
         }
 

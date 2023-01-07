@@ -9,6 +9,7 @@ namespace MovieCollection.DAL.Repositories
 {
     public interface IMoviesRepository : IGenericRepository<Movie>
     {
+        Task<IEnumerable<Movie>> GetAllMoviesAsync();
         Task<Movie> GetByTitle(string title);
         //Task<Movie> GetByCountry(Country country);
         //Task<Movie> GetByGenre(IEnumerable<Genre> genres);
