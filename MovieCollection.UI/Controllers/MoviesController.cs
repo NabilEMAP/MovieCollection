@@ -1,58 +1,35 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MovieCollection.BLL.Interfaces;
-using MovieCollection.Common.DTO.Countries;
-using MovieCollection.Common.DTO.Directors;
+using MovieCollection.UI.Controllers.MovieCollectionClient;
 using MovieCollection.UI.Models;
 using Newtonsoft.Json;
-using System;
 using System.Text;
 
 namespace MovieCollection.UI.Controllers
 {
     public class MoviesController : Controller
     {
-        Uri baseAddress = new Uri("https://localhost:8001/api");
-        HttpClient client;
-
-        public MoviesController()
+        private readonly IMovieClient _movieClient;
+        public MoviesController(IMovieClient movieClient)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            _movieClient = movieClient;
         }
 
         public IActionResult Index()
         {
-            List<MovieViewModel> modelList = new List<MovieViewModel>();
-            
-            HttpResponseMessage response = client.GetAsync(baseAddress + "/Movies").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                modelList = JsonConvert.DeserializeObject<List<MovieViewModel>>(data);
-            }
-
+            var modelList = _movieClient.GetMovies().Result;
             return View(modelList);
         }
 
         // GET-Create
         public IActionResult Create()
         {
-            List<CountryViewModel> countryList = new List<CountryViewModel>();
-            List<DirectorViewModel> directorList = new List<DirectorViewModel>();
-            HttpResponseMessage countryResponse = client.GetAsync(baseAddress + "/Countries").Result;
-            HttpResponseMessage directorResponse = client.GetAsync(baseAddress + "/Directors").Result;
-            if (countryResponse.IsSuccessStatusCode && directorResponse.IsSuccessStatusCode)
-            {
-                string countryData = countryResponse.Content.ReadAsStringAsync().Result;
-                string directorData = directorResponse.Content.ReadAsStringAsync().Result;
-                countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(countryData);
-                directorList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
-            }
+            var countryList = _movieClient.GetCountries().Result;
+            var directorList = _movieClient.GetDirectors().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
             return View();
+
         }
 
         // POST-Create
@@ -60,37 +37,23 @@ namespace MovieCollection.UI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(MovieViewModel model)
         {
-            string data = JsonConvert.SerializeObject(model);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PostAsync(baseAddress + "/Movies", content).Result;
-            if (response.IsSuccessStatusCode)
+            var response = _movieClient.CreateMovie(model);
+            if (response.Result)
             {
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(model);
         }
 
         // GET-Update
         public IActionResult Update(int id)
         {
-            MovieViewModel model = new MovieViewModel();
-            List<CountryViewModel> countryList = new List<CountryViewModel>();
-            List<DirectorViewModel> directorList = new List<DirectorViewModel>();
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Movies/" + id).Result;
-            HttpResponseMessage countryResponse = client.GetAsync(baseAddress + "/Countries").Result;
-            HttpResponseMessage directorResponse = client.GetAsync(baseAddress + "/Directors").Result;
-            if (response.IsSuccessStatusCode && countryResponse.IsSuccessStatusCode && directorResponse.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                string countryData = countryResponse.Content.ReadAsStringAsync().Result;
-                string directorData = directorResponse.Content.ReadAsStringAsync().Result;
-                model = JsonConvert.DeserializeObject<MovieViewModel>(data);
-                countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(countryData);
-                directorList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
-            }
+            var response = _movieClient.GetMovieById(id).Result;
+            var countryList = _movieClient.GetCountries().Result;
+            var directorList = _movieClient.GetDirectors().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
-            return View(model);            
+            return View(response);
         }
 
         // POST-Update
@@ -98,10 +61,8 @@ namespace MovieCollection.UI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(MovieViewModel model)
         {
-            string data = JsonConvert.SerializeObject(model);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PutAsync(client.BaseAddress + "/Movies?id=" + model.Id, content).Result;
-            if (response.IsSuccessStatusCode)
+            var response = _movieClient.UpdateMovie(model);
+            if (response.Result)
             {
                 return RedirectToAction("Index");
             }
@@ -111,24 +72,12 @@ namespace MovieCollection.UI.Controllers
         //GET-Delete
         public IActionResult Delete(int id)
         {
-            MovieViewModel model = new MovieViewModel();
-            List<CountryViewModel> countryList = new List<CountryViewModel>();
-            List<DirectorViewModel> directorList = new List<DirectorViewModel>();
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/Movies/" + id).Result;
-            HttpResponseMessage countryResponse = client.GetAsync(baseAddress + "/Countries").Result;
-            HttpResponseMessage directorResponse = client.GetAsync(baseAddress + "/Directors").Result;
-            if (response.IsSuccessStatusCode && countryResponse.IsSuccessStatusCode && directorResponse.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                string countryData = countryResponse.Content.ReadAsStringAsync().Result;
-                string directorData = directorResponse.Content.ReadAsStringAsync().Result;
-                model = JsonConvert.DeserializeObject<MovieViewModel>(data);
-                countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(countryData);
-                directorList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
-            }
+            var response = _movieClient.GetMovieById(id).Result;
+            var countryList = _movieClient.GetCountries().Result;
+            var directorList = _movieClient.GetDirectors().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
-            return View(model);
+            return View(response);
         }
 
         // POST-Update
@@ -136,9 +85,8 @@ namespace MovieCollection.UI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(MovieViewModel model)
         {
-            string data = JsonConvert.SerializeObject(model);
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + "/Movies?id=" + model.Id).Result;
-            if (response.IsSuccessStatusCode)
+            var response = _movieClient.DeleteMovie(model);
+            if (response.Result)
             {
                 return RedirectToAction("Index");
             }
