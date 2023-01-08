@@ -3,7 +3,7 @@ using MovieCollection.UI.Models;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace MovieCollection.API.Controllers
+namespace MovieCollection.UI.Controllers
 {
     public class GenresController : Controller
     {

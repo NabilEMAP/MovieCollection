@@ -28,9 +28,6 @@ namespace MovieCollection.DAL.Configurations
                     .IsRequired()
                     .HasColumnType("varchar(50)");
 
-            builder.HasIndex(p => p.ReleaseDate)
-                    .IsUnique();
-
             builder.Property(p => p.ReleaseDate)
                     .IsRequired()
                     .HasColumnType("date");

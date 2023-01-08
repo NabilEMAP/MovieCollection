@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MovieCollection.BLL.DTO.Users;
 using MovieCollection.Common.DTO.Countries;
 using MovieCollection.Common.DTO.Directors;
 using MovieCollection.Common.DTO.Genres;

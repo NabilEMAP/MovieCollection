@@ -1,5 +1,4 @@
-﻿using MovieCollection.BLL.DTO.Users;
-using MovieCollection.Common.DTO.Users;
+﻿using MovieCollection.Common.DTO.Users;
 using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;

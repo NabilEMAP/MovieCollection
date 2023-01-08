@@ -3,6 +3,7 @@ using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using MovieCollection.UI.Models;
 using System.Diagnostics;
+using ErrorViewModel = MovieCollection.UI.Models.ErrorViewModel;
 
 namespace MovieCollection.UI.Controllers
 {

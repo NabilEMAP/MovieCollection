@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MovieCollection.BLL.DTO.Users;
 using MovieCollection.BLL.Exceptions;
 using MovieCollection.BLL.Interfaces;
 using MovieCollection.Common.DTO.Users;
