@@ -1,60 +1,83 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieCollection.BLL.Interfaces;
+using MovieCollection.Common.DTO.Movies;
 using System;
 
 namespace MovieCollection.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class MoviesController : ControllerBase
     {
-        /*
-        private readonly IMoviesService moviesService;
+        private readonly IMoviesService _moviesService;
 
         public MoviesController(IMoviesService moviesService)
         {
-            this.moviesService = moviesService;
+            _moviesService = moviesService;
         }
 
-        [HttpGet]   //api/movies?lastname=El Moussaoui
-        public IActionResult GetAllMovies([FromQuery] string lastName, [FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
-        {
-            return Ok(moviesService.GetAll(pageNr, pageSize));
-        }
-
+        // GET api/Movie
         [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetMovie(int id)
+        public async Task<IActionResult> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        public IActionResult CreateMovie()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Route("{id}")]  //api/movies/id
-        [HttpDelete]
-        public IActionResult DeleteMovie(int id, [FromHeader(Name = "X-AccessKey")] string AccessKey)
-        {
-            try
-            {
-                moviesService.Delete(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
+            var movie = await _moviesService.GetAll();
+            if (movie == null)
             {
                 return NotFound();
             }
+            return Ok(movie);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateMovie(int id)
+        // GET api/Movie/1
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            throw new NotImplementedException();
+            var movie = await _moviesService.GetById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return Ok(movie);
         }
-        */
+
+        // POST api/Movie
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateMovieDTO movie)
+        {
+            try
+            {
+                await _moviesService.Add(movie);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(movie);
+        }
+
+        //PUT api/Movie/1
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, UpdateMovieDTO movie)
+        {
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            await _moviesService.Update(id, movie);
+            return Ok(movie);
+        }
+
+        //DELETE api/Movie/1
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var movie = await _moviesService.GetById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            await _moviesService.Delete(id);
+            return NoContent();
+        }
     }
 }

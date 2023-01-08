@@ -12,15 +12,23 @@ namespace MovieCollection.DAL.Repositories
 {
     public class DirectorsRepository : GenericRepository<Director>, IDirectorsRepository
     {
-        private readonly ApplicationDbContext context;
-
         public DirectorsRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public Director GetByLastName(string lastName)
+        public async Task<Director> GetByNationality(string nationality)
         {
-            return context.Directors.FirstOrDefault(s => s.LastName == lastName);
+            return await _context.Directors.Where(s => s.Nationality == nationality).FirstOrDefaultAsync();
+        }
+
+        public async Task<Director> GetByLastName(string lastName)
+        {
+            return await _context.Directors.Where(s => s.LastName == lastName).FirstOrDefaultAsync();
+        }
+
+        public async Task<Director> GetByFirstName(string firstName)
+        {
+            return await _context.Directors.Where(s => s.FirstName == firstName).FirstOrDefaultAsync();
         }
     }
 }

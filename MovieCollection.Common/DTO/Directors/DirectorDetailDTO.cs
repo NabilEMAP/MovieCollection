@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Movies;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace MovieCollection.Common.DTO.Directors
         public string Nationality { get; set; }
         public string IsActive { get; set; }
         public string PicturePath { get; set; }
-        //public ICollection<Movie> Movies { get; set; }
+        //public IEnumerable<MovieDetailDTO> Movies { get; set; }
     }
 }

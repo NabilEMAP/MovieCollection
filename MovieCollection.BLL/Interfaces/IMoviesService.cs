@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Movies;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IMoviesService
     {
-        public IEnumerable<Movie> GetAll(int pageNr, int pageSize);
-        public Task<Movie> GetById(int id);
-        public Task<Movie> Add(Movie movie);
-        public Task Delete(int id);
-        public Task<Movie> Update(Movie movie);
+        public Task<IEnumerable<MovieDetailDTO>> GetAll();
+        public Task<MovieDetailDTO> GetById(int id);
+        public Task<MovieDetailDTO> Add(CreateMovieDTO movie);
+        public Task<MovieDetailDTO> Update(int id, UpdateMovieDTO movie);
+        public Task<int> Delete(int id);
     }
 }

@@ -10,10 +10,10 @@ namespace MovieCollection.DAL.UOW
     public interface IUnitOfWork
     {
         public ICountriesRepository CountriesRepository { get; }
-        //public IDirectorsRepository DirectorsRepository { get; }
+        public IDirectorsRepository DirectorsRepository { get; }
         public IGenresRepository GenresRepository { get; }
-        //public IMoviesRepository MoviesRepository { get; }
-        //public IUsersRepository UsersRepository { get; }
+        public IMoviesRepository MoviesRepository { get; }
+        public IUsersRepository UsersRepository { get; }
         Task Save();
     }
 }

@@ -9,9 +9,9 @@ namespace MovieCollection.DAL.Models
         public DateTime ReleaseDate { get; set; }
         public int DirectorId { get; set; }
         public Director Director { get; set; }
-        //public ICollection<User> Users { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; set; }
+        public ICollection<MovieGenre> MovieGenres { get; set; }
 
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MovieCollection.DAL.Models
+﻿namespace MovieCollection.UI.Models
 {
-    public class Director
+    public class DirectorViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -11,7 +9,6 @@ namespace MovieCollection.DAL.Models
         public string Nationality { get; set; }
         public string IsActive { get; set; }
         public string PicturePath { get; set; }
-        //public IEnumerable<Movie> Movies { get; set; }
 
         public string Fullname
         {

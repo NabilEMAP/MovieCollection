@@ -1,5 +1,9 @@
-﻿using MovieCollection.BLL.Interfaces;
+﻿using AutoMapper;
+using MovieCollection.BLL.Interfaces;
+using MovieCollection.Common.DTO.Genres;
+using MovieCollection.Common.DTO.Movies;
 using MovieCollection.DAL.Models;
+using MovieCollection.DAL.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +14,65 @@ namespace MovieCollection.BLL.Services
 {
     public class MoviesService : IMoviesService
     {
-        public Task<Movie> Add(Movie movie)
+        public readonly IUnitOfWork _uow;
+        public readonly IMapper _mapper;
+
+        public MoviesService(IUnitOfWork uow, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _uow = uow;
+            _mapper = mapper;
         }
 
-        public Task Delete(int id)
+        public async Task<MovieDetailDTO> Add(CreateMovieDTO entity)
         {
-            throw new NotImplementedException();
+            var movie = _mapper.Map<Movie>(entity);
+            await _uow.MoviesRepository.Add(movie);
+            await _uow.Save();
+            return _mapper.Map<MovieDetailDTO>(movie);
         }
 
-        public IEnumerable<Movie> GetAll(int pageNr, int pageSize)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            var toDeleteMovie = await _uow.MoviesRepository.GetByIdAsync(id);
+            if (toDeleteMovie == null)
+            {
+                throw new KeyNotFoundException("This movie does not exist.");
+            }
+            _uow.MoviesRepository.Delete(toDeleteMovie);
+            _uow.Save();
+            return 0;
         }
 
-        public Task<Movie> GetById(int id)
+        public async Task<IEnumerable<MovieDetailDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var movies = await _uow.MoviesRepository.GetAllMoviesAsync();
+            return _mapper.Map<IEnumerable<MovieDetailDTO>>(movies);
         }
 
-        public Task<Movie> Update(Movie movie)
+        public async Task<MovieDetailDTO> GetById(int id)
         {
-            throw new NotImplementedException();
+            var movie = await _uow.MoviesRepository.GetByIdAsync(id);
+            return _mapper.Map<MovieDetailDTO>(movie);
+        }
+
+        public async Task<MovieDetailDTO> Update(int id, UpdateMovieDTO entity)
+        {
+            var movieFromRequest = _mapper.Map<Movie>(entity);
+            var movieToUpdate = await _uow.MoviesRepository.GetByIdAsync(id);
+
+            if (movieToUpdate == null)
+            {
+                throw new KeyNotFoundException("This movie does not exists");
+            }
+
+            movieToUpdate.Title = movieFromRequest.Title;
+            movieToUpdate.ReleaseDate = movieFromRequest.ReleaseDate;
+            movieToUpdate.DirectorId = movieFromRequest.DirectorId;
+            movieToUpdate.CountryId = movieFromRequest.CountryId;
+
+            await _uow.MoviesRepository.Update(movieToUpdate);
+            await _uow.Save();
+            return _mapper.Map<MovieDetailDTO>(movieToUpdate);
         }
     }
 }

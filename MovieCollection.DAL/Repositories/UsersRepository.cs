@@ -12,15 +12,18 @@ namespace MovieCollection.DAL.Repositories
 {
     public class UsersRepository : GenericRepository<User>, IUsersRepository
     {
-        private readonly ApplicationDbContext context;
-
         public UsersRepository(ApplicationDbContext context) : base(context)
         {
         }
 
         public async Task<User> GetByLastName(string lastName)
         {
-            return await context.Users.Where(x => x.LastName == lastName).FirstOrDefaultAsync();
+            return await _context.Users.Where(x => x.LastName == lastName).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByFirstName(string firstName)
+        {
+            return await _context.Users.Where(x => x.FirstName == firstName).FirstOrDefaultAsync();
         }
     }
 }

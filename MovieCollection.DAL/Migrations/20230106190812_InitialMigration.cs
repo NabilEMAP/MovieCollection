@@ -72,23 +72,6 @@ namespace MovieCollection.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tblUsers",
-                schema: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "varchar(25)", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(25)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
-                    IsActive = table.Column<string>(type: "varchar(25)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tblMovies",
                 schema: "Movie",
                 columns: table => new
@@ -103,20 +86,23 @@ namespace MovieCollection.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblMovies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_tblMovies_tblCountries_CountryId",
-                        column: x => x.CountryId,
-                        principalSchema: "Country",
-                        principalTable: "tblCountries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblMovies_tblDirectors_DirectorId",
-                        column: x => x.DirectorId,
-                        principalSchema: "Director",
-                        principalTable: "tblDirectors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblUsers",
+                schema: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "varchar(25)", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(25)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
+                    IsActive = table.Column<string>(type: "varchar(25)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUsers", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
@@ -396,6 +382,19 @@ namespace MovieCollection.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                schema: "Movie",
+                table: "tblMovies",
+                columns: new[] { "Id", "CountryId", "DirectorId", "ReleaseDate", "Title" },
+                values: new object[,]
+                {
+                    { 1, 187, 1, new DateTime(2003, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bad Boys 2" },
+                    { 2, 186, 2, new DateTime(2020, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tenet" },
+                    { 3, 186, 3, new DateTime(1979, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Aliens" },
+                    { 4, 187, 4, new DateTime(2011, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Midnight in Paris" },
+                    { 5, 124, 5, new DateTime(2005, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "King Kong" }
+                });
+
+            migrationBuilder.InsertData(
                 schema: "User",
                 table: "tblUsers",
                 columns: new[] { "Id", "Email", "FirstName", "IsActive", "LastName" },
@@ -444,18 +443,6 @@ namespace MovieCollection.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblMovies_CountryId",
-                schema: "Movie",
-                table: "tblMovies",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblMovies_DirectorId",
-                schema: "Movie",
-                table: "tblMovies",
-                column: "DirectorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblMovies_Id",
                 schema: "Movie",
                 table: "tblMovies",
@@ -494,6 +481,14 @@ namespace MovieCollection.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "tblCountries",
+                schema: "Country");
+
+            migrationBuilder.DropTable(
+                name: "tblDirectors",
+                schema: "Director");
+
+            migrationBuilder.DropTable(
                 name: "tblGenres",
                 schema: "Genre");
 
@@ -504,14 +499,6 @@ namespace MovieCollection.DAL.Migrations
             migrationBuilder.DropTable(
                 name: "tblUsers",
                 schema: "User");
-
-            migrationBuilder.DropTable(
-                name: "tblCountries",
-                schema: "Country");
-
-            migrationBuilder.DropTable(
-                name: "tblDirectors",
-                schema: "Director");
         }
     }
 }

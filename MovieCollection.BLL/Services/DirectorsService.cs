@@ -1,5 +1,8 @@
-﻿using MovieCollection.BLL.Interfaces;
+﻿using AutoMapper;
+using MovieCollection.BLL.Interfaces;
+using MovieCollection.Common.DTO.Directors;
 using MovieCollection.DAL.Models;
+using MovieCollection.DAL.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +13,66 @@ namespace MovieCollection.BLL.Services
 {
     public class DirectorsService : IDirectorsService
     {
-        public Task<Director> Add(Director director)
+        public readonly IUnitOfWork _uow;
+        public readonly IMapper _mapper;
+
+        public DirectorsService(IUnitOfWork uow, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _uow = uow;
+            _mapper = mapper;
+        }
+        public async Task<DirectorDetailDTO> Add(CreateDirectorDTO entity)
+        {
+            var director = _mapper.Map<Director>(entity);
+            await _uow.DirectorsRepository.Add(director);
+            await _uow.Save();
+            return _mapper.Map<DirectorDetailDTO>(director);
         }
 
-        public Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            var toDeleteDirector = await _uow.DirectorsRepository.GetByIdAsync(id);
+            if (toDeleteDirector == null)
+            {
+                throw new KeyNotFoundException("This director does not exist.");
+            }
+            _uow.DirectorsRepository.Delete(toDeleteDirector);
+            _uow.Save();
+            return 0;
         }
 
-        public IEnumerable<Director> GetAll(int pageNr, int pageSize)
+        public async Task<IEnumerable<DirectorDetailDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var directors = await _uow.DirectorsRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<DirectorDetailDTO>>(directors);
         }
 
-        public Task<Director> GetById(int id)
+        public async Task<DirectorDetailDTO> GetById(int id)
         {
-            throw new NotImplementedException();
+            var director = await _uow.DirectorsRepository.GetByIdAsync(id);
+            return _mapper.Map<DirectorDetailDTO>(director);
         }
 
-        public Task<Director> Update(Director director)
+        public async Task<DirectorDetailDTO> Update(int id, UpdateDirectorDTO entity)
         {
-            throw new NotImplementedException();
+            var directorFromRequest = _mapper.Map<Director>(entity);
+            var directorToUpdate = await _uow.DirectorsRepository.GetByIdAsync(id);
+
+            if (directorToUpdate == null)
+            {
+                throw new KeyNotFoundException("This director does not exists");
+            }
+
+            directorToUpdate.FirstName = directorFromRequest.FirstName;
+            directorToUpdate.LastName = directorFromRequest.LastName;
+            directorToUpdate.DateOfBirth = directorFromRequest.DateOfBirth;
+            directorToUpdate.Nationality = directorFromRequest.Nationality;
+            directorToUpdate.IsActive = directorFromRequest.IsActive;
+            directorToUpdate.PicturePath = directorFromRequest.PicturePath;
+
+            await _uow.DirectorsRepository.Update(directorToUpdate);
+            await _uow.Save();
+            return _mapper.Map<DirectorDetailDTO>(directorToUpdate);
         }
     }
 }

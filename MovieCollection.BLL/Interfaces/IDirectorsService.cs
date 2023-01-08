@@ -1,4 +1,5 @@
-﻿using MovieCollection.DAL.Models;
+﻿using MovieCollection.Common.DTO.Directors;
+using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IDirectorsService
     {
-        public IEnumerable<Director> GetAll(int pageNr, int pageSize);
-        public Task<Director> GetById(int id);
-        public Task<Director> Add(Director director);
-        public Task Delete(int id);
-        public Task<Director> Update(Director director);
+        public Task<IEnumerable<DirectorDetailDTO>> GetAll();
+        public Task<DirectorDetailDTO> GetById(int id);
+        public Task<DirectorDetailDTO> Add(CreateDirectorDTO director);
+        public Task<DirectorDetailDTO> Update(int id, UpdateDirectorDTO director);
+        public Task<int> Delete(int id);
     }
 }
