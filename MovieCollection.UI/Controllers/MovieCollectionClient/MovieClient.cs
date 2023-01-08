@@ -57,7 +57,7 @@ namespace MovieCollection.UI.Controllers.MovieCollectionClient
 
         public async Task<IEnumerable<MovieViewModel>> GetMovies()
         {
-            HttpResponseMessage movieResponse = _httpClient.GetAsync(_baseAddress + "/Movies").Result;
+            HttpResponseMessage movieResponse = _httpClient.GetAsync(_baseAddress + "/Movies/Details").Result;
             if (movieResponse.IsSuccessStatusCode)
             {
                 string movieData = movieResponse.Content.ReadAsStringAsync().Result;

@@ -23,7 +23,7 @@ namespace MovieCollection.UI.Controllers
         public IActionResult Index()
         {
             List<UserViewModel> modelList = new List<UserViewModel>();
-            HttpResponseMessage response = client.GetAsync(baseAddress + "/Users").Result;
+            HttpResponseMessage response = client.GetAsync(baseAddress + "/Users/Details").Result;
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
