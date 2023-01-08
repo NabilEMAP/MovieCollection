@@ -1,5 +1,15 @@
 ﻿@model IEnumerable<MovieCollection.UI.Models.DirectorViewModel>
 
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
@@ -11,35 +21,21 @@
     </div>
     <br />
 
+    <partial name="_pager" model="@pager" />
+
     @if (Model.Count() > 0)
     {
         <table class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        First Name
-                    </th>
-                    <th>
-                        Last Name
-                    </th>
-                    <th>
-                        Date Of Birth
-                    </th>
-                    <th>
-                        Nationality
-                    </th>
-                    <th>
-                        Is Active?
-                    </th>
-                    <th>
-                        Picture
-                    </th>
-                    <th>
-                        Changes
-                    </th>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Nationality</th>
+                    <th>Is Active?</th>
+                    <th>Picture</th>
+                    <th>Changes</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +64,5 @@
     {
         <p>No Directors created yet.</p>
     }
-
-
+    <partial name="_pager" model="@pager" />
 </div>

@@ -1,5 +1,15 @@
 ﻿@model IEnumerable<MovieCollection.UI.Models.MovieViewModel>
 
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
@@ -10,6 +20,8 @@
         </div>
     </div>
     <br />
+
+    <partial name="_pager" model="@pager" />
 
     @if (Model.Count() > 0)
     {
@@ -49,6 +61,5 @@
     {
         <p>No Movies created yet.</p>
     }
-
-
+    <partial name="_pager" model="@pager" />
 </div>

@@ -20,7 +20,7 @@ namespace MovieCollection.UI.Controllers
             client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pg)
         {
             List<DirectorViewModel> modelList = new List<DirectorViewModel>();
             HttpResponseMessage response = client.GetAsync(baseAddress + "/Directors/Details").Result;
@@ -29,7 +29,14 @@ namespace MovieCollection.UI.Controllers
                 string data = response.Content.ReadAsStringAsync().Result;
                 modelList = JsonConvert.DeserializeObject<List<DirectorViewModel>>(data);
             }
-            return View(modelList);
+            const int pageSize = 10;
+            if (pg < 1) { pg = 1; }
+            int recsCount = modelList.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var dataPager = modelList.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            return View(dataPager);
         }
 
         // GET-Create
