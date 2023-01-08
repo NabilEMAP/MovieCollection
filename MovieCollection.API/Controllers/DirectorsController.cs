@@ -16,11 +16,11 @@ namespace MovieCollection.API.Controllers
             _directorsService = directorsService;
         }
 
-        // GET api/Director
+        // GET api/Directors
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetDirectors()
         {
-            var director = await _directorsService.GetAll();
+            var director = await _directorsService.GetDirectors();
             if (director == null)
             {
                 return NotFound();
@@ -28,7 +28,19 @@ namespace MovieCollection.API.Controllers
             return Ok(director);
         }
 
-        // GET api/Director/1
+        // GET api/Directors/Details
+        [HttpGet("Details")]
+        public async Task<IActionResult> GetDirectorDetails()
+        {
+            var director = await _directorsService.GetDirectorDetails();
+            if (director == null)
+            {
+                return NotFound();
+            }
+            return Ok(director);
+        }
+
+        // GET api/Directors/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -40,7 +52,7 @@ namespace MovieCollection.API.Controllers
             return Ok(director);
         }
 
-        // POST api/Director
+        // POST api/Directors
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDirectorDTO director)
         {
@@ -55,7 +67,7 @@ namespace MovieCollection.API.Controllers
             return Ok(director);
         }
 
-        //PUT api/Director/1
+        //PUT api/Directors
         [HttpPut]
         public async Task<IActionResult> Put(int id, UpdateDirectorDTO director)
         {
@@ -67,7 +79,7 @@ namespace MovieCollection.API.Controllers
             return Ok(director);
         }
 
-        //DELETE api/Director/1
+        //DELETE api/Directors
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

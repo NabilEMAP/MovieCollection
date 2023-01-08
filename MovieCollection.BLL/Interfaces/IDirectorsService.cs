@@ -10,7 +10,8 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IDirectorsService
     {
-        public Task<IEnumerable<DirectorDetailDTO>> GetAll();
+        public Task<IEnumerable<DirectorDetailDTO>> GetDirectorDetails();
+        public Task<IEnumerable<DirectorDTO>> GetDirectors();
         public Task<DirectorDetailDTO> GetById(int id);
         public Task<DirectorDetailDTO> Add(CreateDirectorDTO director);
         public Task<DirectorDetailDTO> Update(int id, UpdateDirectorDTO director);

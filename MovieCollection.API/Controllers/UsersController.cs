@@ -17,11 +17,11 @@ namespace MovieCollection.API.Controllers
             _usersService = usersService;
         }
 
-        // GET api/User
+        // GET api/Users
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetUsers()
         {
-            var user = await _usersService.GetAll();
+            var user = await _usersService.GetUsers();
             if (user == null)
             {
                 return NotFound();
@@ -29,7 +29,19 @@ namespace MovieCollection.API.Controllers
             return Ok(user);
         }
 
-        // GET api/User/1
+        // GET api/Users/Details
+        [HttpGet("Details")]
+        public async Task<IActionResult> GetUserDetails()
+        {
+            var user = await _usersService.GetUserDetails();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        // GET api/Users/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -41,7 +53,7 @@ namespace MovieCollection.API.Controllers
             return Ok(user);
         }
 
-        // POST api/User
+        // POST api/Users
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserDTO user)
         {
@@ -56,7 +68,7 @@ namespace MovieCollection.API.Controllers
             return Ok(user);
         }
 
-        //PUT api/User/1
+        //PUT api/Users
         [HttpPut]
         public async Task<IActionResult> Put(int id, UpdateUserDTO user)
         {
@@ -68,7 +80,7 @@ namespace MovieCollection.API.Controllers
             return Ok(user);
         }
 
-        //DELETE api/User/1
+        //DELETE api/Users
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

@@ -19,7 +19,7 @@ namespace MovieCollection.API.Controllers
             _countriesServices = countriesService;
         }
 
-        // GET api/Country
+        // GET api/Countries
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -28,7 +28,7 @@ namespace MovieCollection.API.Controllers
             return Ok(countries);
         }
 
-        // GET api/Country/1
+        // GET api/Countries/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -37,7 +37,7 @@ namespace MovieCollection.API.Controllers
             return Ok(countries);
         }
 
-        // POST api/Genre
+        // POST api/Countries
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateCountryDTO country)
         {
@@ -52,7 +52,7 @@ namespace MovieCollection.API.Controllers
             return Ok(country);
         }
 
-        // PUT api/Country/1
+        // PUT api/Countries
         [HttpPut]
         public async Task<IActionResult> Put(int id, UpdateCountryDTO country)
         {
@@ -64,7 +64,7 @@ namespace MovieCollection.API.Controllers
             return Ok(country);
         }
 
-        // DELETE api/Country/1
+        // DELETE api/Countries
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

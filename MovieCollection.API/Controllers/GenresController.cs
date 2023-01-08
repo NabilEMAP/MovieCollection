@@ -19,7 +19,7 @@ namespace MovieCollection.API.Controllers
             _genresService = genresService;
         }
 
-        // GET api/Genre
+        // GET api/Genres
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -31,7 +31,7 @@ namespace MovieCollection.API.Controllers
             return Ok(genre);
         }
 
-        // GET api/Genre/1
+        // GET api/Genres/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -43,7 +43,7 @@ namespace MovieCollection.API.Controllers
             return Ok(genre);
         }
 
-        // POST api/Genre
+        // POST api/Genres
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateGenreDTO genre)
         {
@@ -58,7 +58,7 @@ namespace MovieCollection.API.Controllers
             return Ok(genre);
         }
 
-        //PUT api/Genre/1
+        //PUT api/Genres
         [HttpPut]
         public async Task<IActionResult> Put(int id, UpdateGenreDTO genre)
         {
@@ -70,7 +70,7 @@ namespace MovieCollection.API.Controllers
             return Ok(genre);
         }
 
-        //DELETE api/Genre/1
+        //DELETE api/Genres
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

@@ -45,10 +45,16 @@ namespace MovieCollection.BLL.Services
             return 0;
         }
 
-        public async Task<IEnumerable<UserDetailDTO>> GetAll()
+        public async Task<IEnumerable<UserDetailDTO>> GetUserDetails()
         {
             var users = await _uow.UsersRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<UserDetailDTO>>(users);
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetUsers()
+        {
+            var users = await _uow.UsersRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
         public async Task<UserDetailDTO> GetById(int id)

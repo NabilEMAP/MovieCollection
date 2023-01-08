@@ -41,10 +41,16 @@ namespace MovieCollection.BLL.Services
             return 0;
         }
 
-        public async Task<IEnumerable<DirectorDetailDTO>> GetAll()
+        public async Task<IEnumerable<DirectorDetailDTO>> GetDirectorDetails()
         {
             var directors = await _uow.DirectorsRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<DirectorDetailDTO>>(directors);
+        }
+
+        public async Task<IEnumerable<DirectorDTO>> GetDirectors()
+        {
+            var directors = await _uow.DirectorsRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<DirectorDTO>>(directors);
         }
 
         public async Task<DirectorDetailDTO> GetById(int id)

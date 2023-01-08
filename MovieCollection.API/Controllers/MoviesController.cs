@@ -16,11 +16,11 @@ namespace MovieCollection.API.Controllers
             _moviesService = moviesService;
         }
 
-        // GET api/Movie
+        // GET api/Movies
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetMovies()
         {
-            var movie = await _moviesService.GetAll();
+            var movie = await _moviesService.GetMovies();
             if (movie == null)
             {
                 return NotFound();
@@ -28,7 +28,19 @@ namespace MovieCollection.API.Controllers
             return Ok(movie);
         }
 
-        // GET api/Movie/1
+        // GET api/Movies/Details
+        [HttpGet("Details")]
+        public async Task<IActionResult> GetMovieDetails()
+        {
+            var movie = await _moviesService.GetMovieDetails();
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return Ok(movie);
+        }
+
+        // GET api/Movies/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -40,7 +52,7 @@ namespace MovieCollection.API.Controllers
             return Ok(movie);
         }
 
-        // POST api/Movie
+        // POST api/Movies
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateMovieDTO movie)
         {
@@ -55,7 +67,7 @@ namespace MovieCollection.API.Controllers
             return Ok(movie);
         }
 
-        //PUT api/Movie/1
+        //PUT api/Movies
         [HttpPut]
         public async Task<IActionResult> Put(int id, UpdateMovieDTO movie)
         {
@@ -67,7 +79,7 @@ namespace MovieCollection.API.Controllers
             return Ok(movie);
         }
 
-        //DELETE api/Movie/1
+        //DELETE api/Movies
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

@@ -10,7 +10,8 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IUsersService
     {
-        public Task<IEnumerable<UserDetailDTO>> GetAll();
+        public Task<IEnumerable<UserDetailDTO>> GetUserDetails();
+        public Task<IEnumerable<UserDTO>> GetUsers();
         public Task<UserDetailDTO> GetById(int id);
         public Task<UserDetailDTO> Add(CreateUserDTO user);
         public Task<UserDetailDTO> Update(int id, UpdateUserDTO user);

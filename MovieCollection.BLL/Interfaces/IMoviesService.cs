@@ -10,7 +10,8 @@ namespace MovieCollection.BLL.Interfaces
 {
     public interface IMoviesService
     {
-        public Task<IEnumerable<MovieDetailDTO>> GetAll();
+        public Task<IEnumerable<MovieDetailDTO>> GetMovieDetails();
+        public Task<IEnumerable<MovieDTO>> GetMovies();
         public Task<MovieDetailDTO> GetById(int id);
         public Task<MovieDetailDTO> Add(CreateMovieDTO movie);
         public Task<MovieDetailDTO> Update(int id, UpdateMovieDTO movie);
