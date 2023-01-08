@@ -42,6 +42,7 @@ namespace MovieCollection.UI.Controllers
             {
                 return RedirectToAction("Index");
             }
+            Create(); //To add the Director and Country lists back when The Result failed, else the list would be completely empty
             return View(model);
         }
 
@@ -59,14 +60,16 @@ namespace MovieCollection.UI.Controllers
         // POST-Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(MovieViewModel model)
+        public IActionResult Update(MovieViewModel model, int id)
         {
+            var modelId = _movieClient.GetMovieById(id).Result;
             var response = _movieClient.UpdateMovie(model);
             if (response.Result)
             {
                 return RedirectToAction("Index");
             }
-            return View(model);
+            Update(id);
+            return View(modelId);
         }
 
         //GET-Delete
