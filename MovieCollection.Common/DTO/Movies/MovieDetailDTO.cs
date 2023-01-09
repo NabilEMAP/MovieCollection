@@ -19,6 +19,8 @@ namespace MovieCollection.Common.DTO.Movies
         public DirectorDetailDTO Director { get; set; }
         public int CountryId { get; set; }
         public CountryDTO Country { get; set; }
+        public int GenreId { get; set; }
+        public GenreDTO Genre { get; set; }
         //public IEnumerable<GenreDTO> Genres { get; set; }
     }
 }

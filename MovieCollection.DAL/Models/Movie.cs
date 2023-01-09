@@ -11,7 +11,9 @@ namespace MovieCollection.DAL.Models
         public Director Director { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; set; }
-        public ICollection<MovieGenre> MovieGenres { get; set; }
+        public int GenreId { get; set; }
+        public Genre Genre { get; set; }
+        //public ICollection<Genre> Genres { get; set; }
 
     }
 }

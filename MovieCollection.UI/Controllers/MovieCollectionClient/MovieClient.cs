@@ -12,6 +12,7 @@ namespace MovieCollection.UI.Controllers.MovieCollectionClient
         private IEnumerable<MovieViewModel> _movies;
         private IEnumerable<CountryViewModel> _countries;
         private IEnumerable<DirectorViewModel> _directors;
+        private IEnumerable<GenreViewModel> _genres;
 
         public MovieClient()
         {
@@ -51,6 +52,18 @@ namespace MovieCollection.UI.Controllers.MovieCollectionClient
                 if (_directors is null)
                 {
                     _directors = value;
+                }
+            }
+        }
+
+        private IEnumerable<GenreViewModel> Genres
+        {
+            get { return _genres; }
+            set
+            {
+                if (_genres is null)
+                {
+                    _genres = value;
                 }
             }
         }
@@ -98,6 +111,17 @@ namespace MovieCollection.UI.Controllers.MovieCollectionClient
                 _directors = JsonConvert.DeserializeObject<List<DirectorViewModel>>(directorData);
             }
             return _directors;
+        }
+
+        public async Task<IEnumerable<GenreViewModel>> GetGenres()
+        {
+            HttpResponseMessage genreResponse = _httpClient.GetAsync(_baseAddress + "/Genres").Result;
+            if (genreResponse.IsSuccessStatusCode)
+            {
+                string genreData = genreResponse.Content.ReadAsStringAsync().Result;
+                _genres = JsonConvert.DeserializeObject<List<GenreViewModel>>(genreData);
+            }
+            return _genres;
         }
 
         public async Task<bool> CreateMovie(MovieViewModel model)

@@ -25,7 +25,8 @@ namespace MovieCollection.UI.Controllers
                     p.Title.Contains(SearchText) ||
                     p.ReleaseDate.ToString().Contains(SearchText) ||
                     p.Director.Fullname.Contains(SearchText) ||
-                    p.Country.Name.Contains(SearchText)
+                    p.Country.Name.Contains(SearchText) ||
+                    p.Genre.Name.Contains(SearchText)
                     ).ToList();
             }
             else
@@ -51,8 +52,10 @@ namespace MovieCollection.UI.Controllers
         {
             var countryList = _movieClient.GetCountries().Result;
             var directorList = _movieClient.GetDirectors().Result;
+            var genreList = _movieClient.GetGenres().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
+            ViewData["GenreId"] = new SelectList(genreList, "Id", "Name");
             return View();
 
         }
@@ -77,8 +80,10 @@ namespace MovieCollection.UI.Controllers
             var response = _movieClient.GetMovieById(id).Result;
             var countryList = _movieClient.GetCountries().Result;
             var directorList = _movieClient.GetDirectors().Result;
+            var genreList = _movieClient.GetGenres().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
+            ViewData["GenreId"] = new SelectList(genreList, "Id", "Name");
             return View(response);
         }
 
@@ -103,8 +108,10 @@ namespace MovieCollection.UI.Controllers
             var response = _movieClient.GetMovieById(id).Result;
             var countryList = _movieClient.GetCountries().Result;
             var directorList = _movieClient.GetDirectors().Result;
+            var genreList = _movieClient.GetGenres().Result;
             ViewData["CountryId"] = new SelectList(countryList, "Id", "Name");
             ViewData["DirectorId"] = new SelectList(directorList, "Id", "Fullname");
+            ViewData["GenreId"] = new SelectList(genreList, "Id", "Name");
             return View(response);
         }
 

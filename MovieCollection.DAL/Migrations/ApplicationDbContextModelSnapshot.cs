@@ -1212,6 +1212,9 @@ namespace MovieCollection.DAL.Migrations
                     b.Property<int>("DirectorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("date");
 
@@ -1224,6 +1227,8 @@ namespace MovieCollection.DAL.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("DirectorId");
+
+                    b.HasIndex("GenreId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -1239,6 +1244,7 @@ namespace MovieCollection.DAL.Migrations
                             Id = 1,
                             CountryId = 187,
                             DirectorId = 1,
+                            GenreId = 1,
                             ReleaseDate = new DateTime(2003, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bad Boys 2"
                         },
@@ -1247,6 +1253,7 @@ namespace MovieCollection.DAL.Migrations
                             Id = 2,
                             CountryId = 186,
                             DirectorId = 2,
+                            GenreId = 1,
                             ReleaseDate = new DateTime(2020, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Tenet"
                         },
@@ -1255,6 +1262,7 @@ namespace MovieCollection.DAL.Migrations
                             Id = 3,
                             CountryId = 186,
                             DirectorId = 3,
+                            GenreId = 10,
                             ReleaseDate = new DateTime(1979, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Aliens"
                         },
@@ -1263,6 +1271,7 @@ namespace MovieCollection.DAL.Migrations
                             Id = 4,
                             CountryId = 187,
                             DirectorId = 4,
+                            GenreId = 6,
                             ReleaseDate = new DateTime(2011, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Midnight in Paris"
                         },
@@ -1271,32 +1280,10 @@ namespace MovieCollection.DAL.Migrations
                             Id = 5,
                             CountryId = 124,
                             DirectorId = 5,
+                            GenreId = 1,
                             ReleaseDate = new DateTime(2005, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "King Kong"
                         });
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.MovieGenre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenreId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieGenre");
                 });
 
             modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
@@ -1313,38 +1300,17 @@ namespace MovieCollection.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MovieCollection.DAL.Models.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Country");
 
                     b.Navigation("Director");
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.MovieGenre", b =>
-                {
-                    b.HasOne("MovieCollection.DAL.Models.Genre", "Genre")
-                        .WithMany("MovieGenres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieCollection.DAL.Models.Movie", "Movie")
-                        .WithMany("MovieGenres")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Genre");
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.Genre", b =>
-                {
-                    b.Navigation("MovieGenres");
-                });
-
-            modelBuilder.Entity("MovieCollection.DAL.Models.Movie", b =>
-                {
-                    b.Navigation("MovieGenres");
                 });
 #pragma warning restore 612, 618
         }

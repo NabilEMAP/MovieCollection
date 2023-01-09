@@ -18,7 +18,11 @@ namespace MovieCollection.DAL.Repositories
 
         public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
         {
-            return await _context.Movies.Include(c => c.Country).Include(d => d.Director).ToListAsync();
+            return await _context.Movies
+                .Include(c => c.Country)
+                .Include(d => d.Director)
+                .Include(g => g.Genre)
+                .ToListAsync();
         }
 
         public async Task<Movie> GetByTitle(string title)

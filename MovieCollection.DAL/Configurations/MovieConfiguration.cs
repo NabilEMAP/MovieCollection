@@ -42,10 +42,18 @@ namespace MovieCollection.DAL.Configurations
                     .HasForeignKey(p => p.CountryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(p => p.Genre)
+                    .WithMany()
+                    .HasForeignKey(p => p.GenreId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             builder.Property(p => p.DirectorId)
                     .HasColumnType("int");
 
             builder.Property(p => p.CountryId)
+                    .HasColumnType("int");
+
+            builder.Property(p => p.GenreId)
                     .HasColumnType("int");
         }
     }

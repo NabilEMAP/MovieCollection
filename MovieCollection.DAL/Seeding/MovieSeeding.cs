@@ -20,6 +20,7 @@ namespace MovieCollection.DAL.Seeding
                     ReleaseDate = new DateTime(2003, 10, 8),
                     DirectorId = 1,
                     CountryId = 187, //United States of America
+                    GenreId = 1
                 },
                 new Movie()
                 {
@@ -28,6 +29,7 @@ namespace MovieCollection.DAL.Seeding
                     ReleaseDate = new DateTime(2020, 8, 26),
                     DirectorId = 2,
                     CountryId = 186, //United Kingdom
+                    GenreId = 1
                 },
                 new Movie()
                 {
@@ -36,6 +38,7 @@ namespace MovieCollection.DAL.Seeding
                     ReleaseDate = new DateTime(1979, 9, 13),
                     DirectorId = 3,
                     CountryId = 186,
+                    GenreId = 10
                 },
                 new Movie()
                 {
@@ -44,6 +47,7 @@ namespace MovieCollection.DAL.Seeding
                     ReleaseDate = new DateTime(2011, 6, 15),
                     DirectorId = 4,
                     CountryId = 187,
+                    GenreId = 6
                 },
                 new Movie()
                 {
@@ -52,6 +56,7 @@ namespace MovieCollection.DAL.Seeding
                     ReleaseDate = new DateTime(2005, 12, 14),
                     DirectorId = 5,
                     CountryId = 124, //New Zealand
+                    GenreId = 1
                 }
             );
         }
