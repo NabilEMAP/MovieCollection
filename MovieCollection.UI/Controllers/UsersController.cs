@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieCollection.DAL.Contexts;
 using MovieCollection.DAL.Models;
 using MovieCollection.UI.Models;
+using MovieCollection.UI.Views.Shared.Components.SearchBar;
 using Newtonsoft.Json;
 using System;
 using System.Text;
@@ -20,7 +22,7 @@ namespace MovieCollection.UI.Controllers
             client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index(int pg)
+        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 10)
         {
             List<UserViewModel> modelList = new List<UserViewModel>();
             HttpResponseMessage response = client.GetAsync(baseAddress + "/Users/Details").Result;
@@ -29,14 +31,31 @@ namespace MovieCollection.UI.Controllers
                 string data = response.Content.ReadAsStringAsync().Result;
                 modelList = JsonConvert.DeserializeObject<List<UserViewModel>>(data);
             }
-            const int pageSize = 10;
+            if (SearchText != "" && SearchText != null)
+            {
+                modelList = modelList.Where(p =>
+                    p.FirstName.Contains(SearchText) ||
+                    p.LastName.Contains(SearchText) ||
+                    p.Email.Contains(SearchText) ||
+                    p.IsActive.Contains(SearchText)
+                    ).ToList();
+            }
+            else
+                modelList = modelList.ToList();
+
+            //const int pageSize = 10;
             if (pg < 1) { pg = 1; }
+
             int recsCount = modelList.Count();
-            var pager = new Pager(recsCount, pg, pageSize);
             int recSkip = (pg - 1) * pageSize;
-            var dataPager = modelList.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager = pager;
-            return View(dataPager);
+
+            var retList = modelList.Skip(recSkip).Take(pageSize).ToList();
+            SPager SearchPager = new SPager(recsCount, pg, pageSize) { Action = "Index", Controller = "Users", SearchText = SearchText };
+            ViewBag.SearchPager = SearchPager;
+
+            this.ViewBag.PageSizes = GetPageSizes(pageSize);
+
+            return View(retList);
         }
 
         // GET-Create
@@ -113,6 +132,25 @@ namespace MovieCollection.UI.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        private List<SelectListItem> GetPageSizes(int selectedPageSize = 10)
+        {
+            var pagesSizes = new List<SelectListItem>();
+
+            if (selectedPageSize == 5)
+                pagesSizes.Add(new SelectListItem("5", "5", true));
+            else
+                pagesSizes.Add(new SelectListItem("5", "5"));
+
+            for (int lp = 10; lp <= 100; lp += 10)
+            {
+                if (lp == selectedPageSize)
+                { pagesSizes.Add(new SelectListItem(lp.ToString(), lp.ToString(), true)); }
+                else
+                    pagesSizes.Add(new SelectListItem(lp.ToString(), lp.ToString()));
+            }
+            return pagesSizes;
         }
     }
 }

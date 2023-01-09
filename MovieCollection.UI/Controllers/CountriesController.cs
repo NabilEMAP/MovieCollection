@@ -19,7 +19,7 @@ namespace MovieCollection.UI.Controllers
             client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 5)
+        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 10)
         {
             List<CountryViewModel> modelList = new List<CountryViewModel>();
             HttpResponseMessage response = client.GetAsync(baseAddress + "/Countries").Result;
