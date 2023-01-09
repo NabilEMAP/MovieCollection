@@ -9,7 +9,7 @@ namespace MovieCollection.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var sp = @"CREATE PROCEDURE [dbo].[GetCountryByName]
-                     @countryName nvarchar(255)
+                     @countryName varchar(100)
             AS
             BEGIN
                 SET NOCOUNT ON;

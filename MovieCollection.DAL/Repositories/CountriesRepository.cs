@@ -17,10 +17,10 @@ namespace MovieCollection.DAL.Repositories
         {
         }
 
-        public async Task<Country> GetCountryByName(string name)
+        public async Task<IEnumerable<Country>> GetCountryByName(string name)
         {
             //Stored Procedure
-            return await _context.Countries.FromSql($"GetCountryByName{name}").FirstAsync();
+            return await _context.Countries.FromSql($"GetCountryByName {name}").ToListAsync();
         }
     }
 }
