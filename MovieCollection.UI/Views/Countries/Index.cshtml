@@ -1,13 +1,14 @@
-﻿@model IEnumerable<MovieCollection.UI.Models.CountryViewModel>
+﻿@using MovieCollection.UI.Views.Shared.Components.SearchBar;
+@model IEnumerable<MovieCollection.UI.Models.CountryViewModel>
 
 @{
-    Pager pager = new Pager();
+    SPager pager = new SPager();
     int pageNo = 0;
-    if (ViewBag.Pager != null)
+    if (ViewBag.SearchPager != null)
     {
-        pager = ViewBag.Pager;
+        pager = ViewBag.SearchPager;
         pageNo = pager.CurrentPage;
-    }
+    }    
 }
 
 <div class="container p-3">
@@ -19,8 +20,8 @@
             <a asp-controller="Countries" asp-action="Create" class="btn btn-primary">Create new Country</a>
         </div>
     </div>
-
-    <vc:search-bar search-pager="ViewBag.SearchPager">
+    
+    <vc:search-bar search-pager="ViewBag.SearchPager" bottom-bar="false">
     </vc:search-bar>
 
     <br />
@@ -58,5 +59,11 @@
         <p>No Countries created yet.</p>
     }
     @*<partial name="_pager" model="@pager" />*@
+    
+    <vc:search-bar search-pager="ViewBag.SearchPager" bottom-bar="true">
+    </vc:search-bar>
+
 </div>
+
+
 

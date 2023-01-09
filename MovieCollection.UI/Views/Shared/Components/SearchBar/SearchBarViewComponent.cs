@@ -9,9 +9,12 @@ namespace MovieCollection.UI.Views.Shared.Components.SearchBar
 
         }
 
-        public IViewComponentResult Invoke(SPager SearchPager)
+        public IViewComponentResult Invoke(SPager SearchPager, bool BottomBar = false)
         {
-            return View("Default", SearchPager);
+            if(BottomBar==true)
+                return View("bottomBar", SearchPager);
+            else
+                return View("Default", SearchPager);
         }
     }
 }

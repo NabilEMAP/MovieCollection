@@ -1,4 +1,6 @@
-﻿namespace MovieCollection.UI.Views.Shared.Components.SearchBar
+﻿using MovieCollection.UI.Models;
+
+namespace MovieCollection.UI.Views.Shared.Components.SearchBar
 {
     public class SPager
     {
@@ -15,6 +17,9 @@
         public int TotalPages { get; private set; }
         public int StartPage { get; private set; }
         public int EndPage { get; private set; }
+
+        public int StartRecord { get; private set; }
+        public int EndRecord { get; private set; }
 
         public SPager(int totalRecords, int page, int pageSize)
         {
@@ -45,6 +50,9 @@
             TotalPages = totalPages;
             StartPage = startPage;
             EndPage = endPage;
+
+            StartRecord = (CurrentPage - 1) * PageSize + 1;
+            EndRecord = StartRecord - 1 + PageSize;
         }
 
     }
