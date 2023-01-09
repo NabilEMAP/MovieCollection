@@ -15,14 +15,12 @@ namespace MovieCollection.DAL.UOW
         private readonly IDirectorsRepository _directorsRepository;
         private readonly IGenresRepository _genresRepository;
         private readonly IMoviesRepository _moviesRepository;
-        private readonly IUsersRepository _usersRepository;
 
         public UnitOfWork(
             ApplicationDbContext context,
             ICountriesRepository countriesRepository,
             IDirectorsRepository directorsRepository,
             IMoviesRepository moviesRepository,
-            IUsersRepository usersRepository,
             IGenresRepository genresRepository
             )
         {
@@ -30,13 +28,11 @@ namespace MovieCollection.DAL.UOW
             _countriesRepository = countriesRepository;
             _directorsRepository = directorsRepository;
             _moviesRepository = moviesRepository;
-            _usersRepository = usersRepository;
             _genresRepository = genresRepository;
         }
         public ICountriesRepository CountriesRepository { get { return _countriesRepository; } }
         public IDirectorsRepository DirectorsRepository { get { return _directorsRepository; } }
         public IMoviesRepository MoviesRepository { get { return _moviesRepository; } }
-        public IUsersRepository UsersRepository { get { return _usersRepository; } }
         public IGenresRepository GenresRepository { get { return _genresRepository; } }
 
         public async Task Save()

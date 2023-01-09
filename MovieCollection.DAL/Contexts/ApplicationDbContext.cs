@@ -25,7 +25,6 @@ namespace MovieCollection.DAL.Contexts
         public virtual DbSet<Director> Directors { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
-        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,11 +34,9 @@ namespace MovieCollection.DAL.Contexts
             modelBuilder.ApplyConfiguration(new DirectorConfiguration());
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new MovieConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.Entity<Country>().Seed();
             modelBuilder.Entity<Director>().Seed();
             modelBuilder.Entity<Genre>().Seed();
-            modelBuilder.Entity<User>().Seed();
             modelBuilder.Entity<Movie>().Seed();
         }
     }

@@ -13,7 +13,6 @@ namespace MovieCollection.DAL.UOW
         public IDirectorsRepository DirectorsRepository { get; }
         public IGenresRepository GenresRepository { get; }
         public IMoviesRepository MoviesRepository { get; }
-        public IUsersRepository UsersRepository { get; }
         Task Save();
     }
 }

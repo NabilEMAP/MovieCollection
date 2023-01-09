@@ -19,7 +19,6 @@ namespace MovieCollection.BLL.Extensions
             services.AddScoped<IDirectorsService, DirectorsService>();
             services.AddScoped<IGenresService, GenresService>();
             services.AddScoped<IMoviesService, MoviesService>();
-            services.AddScoped<IUsersService, UsersService>();
             return services;
         }
 

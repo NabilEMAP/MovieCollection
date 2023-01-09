@@ -32,7 +32,6 @@ namespace MovieCollection.DAL.Extensions
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<IGenresRepository, GenresRepository>();
             services.AddScoped<IDirectorsRepository, DirectorsRepository>();
-            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IMoviesRepository, MoviesRepository>();
             return services;
         }

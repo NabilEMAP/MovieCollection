@@ -3,7 +3,6 @@ using MovieCollection.Common.DTO.Countries;
 using MovieCollection.Common.DTO.Directors;
 using MovieCollection.Common.DTO.Genres;
 using MovieCollection.Common.DTO.Movies;
-using MovieCollection.Common.DTO.Users;
 using MovieCollection.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -35,11 +34,6 @@ namespace MovieCollection.BLL
             CreateMap<Movie, MovieDetailDTO>().ReverseMap();
             CreateMap<Movie, CreateMovieDTO>().ReverseMap();
             CreateMap<Movie, UpdateMovieDTO>().ReverseMap();
-
-            CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<User, UserDetailDTO>().ReverseMap();
-            CreateMap<User, CreateUserDTO>().ReverseMap();
-            CreateMap<User, UpdateUserDTO>().ReverseMap();
         }
     }
 }
