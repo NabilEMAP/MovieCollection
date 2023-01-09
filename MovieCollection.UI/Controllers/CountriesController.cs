@@ -3,6 +3,7 @@ using MovieCollection.UI.Models;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using MovieCollection.UI.Views.Shared.Components.SearchBar;
 
 namespace MovieCollection.UI.Controllers
 {
@@ -17,7 +18,7 @@ namespace MovieCollection.UI.Controllers
             client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index(int pg)
+        public IActionResult Index(string SearchText = "", int pg = 1)
         {
             List<CountryViewModel> modelList = new List<CountryViewModel>();
             HttpResponseMessage response = client.GetAsync(baseAddress + "/Countries").Result;
@@ -31,9 +32,15 @@ namespace MovieCollection.UI.Controllers
             int recsCount = modelList.Count();
             var pager = new Pager(recsCount, pg, pageSize);
             int recSkip = (pg - 1) * pageSize;
-            var dataPager = modelList.Skip(recSkip).Take(pager.PageSize).ToList();
+            var retList = modelList.Skip(recSkip).Take(pager.PageSize).ToList();
             this.ViewBag.Pager = pager;
-            return View(dataPager);
+            if(SearchText != "" && SearchText != null)
+            {
+                retList = modelList.Where(p => p.Name.Contains(SearchText)).ToList();
+            }
+            SPager SearchPager = new SPager(recsCount, pg, pageSize) { Action = "Index", Controller = "Countries", SearchText = SearchText };
+            ViewBag.SearchPager = SearchPager;
+            return View(retList);
         }
 
         // GET-Create

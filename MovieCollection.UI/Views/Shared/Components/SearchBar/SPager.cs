@@ -1,7 +1,10 @@
-﻿namespace MovieCollection.UI.Models
+﻿namespace MovieCollection.UI.Views.Shared.Components.SearchBar
 {
-    public class Pager
+    public class SPager
     {
+        public SPager()
+        {
+        }
         public string SearchText { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
@@ -13,28 +16,24 @@
         public int StartPage { get; private set; }
         public int EndPage { get; private set; }
 
-        public Pager()
+        public SPager(int totalRecords, int page, int pageSize)
         {
-
-        }
-        public Pager(int totalRecords, int page, int pageSize)
-        {
-            int totalPages = (int)Math.Ceiling((decimal)totalRecords/(decimal)pageSize);
+            int totalPages = (int)Math.Ceiling((decimal)totalRecords / (decimal)pageSize);
             int currentPage = page;
 
             int startPage = currentPage - 5;
             int endPage = currentPage + 4;
 
-            if(startPage <= 0)
+            if (startPage <= 0)
             {
                 endPage = endPage - (startPage - 1);
                 startPage = 1;
             }
 
-            if(endPage > totalPages)
+            if (endPage > totalPages)
             {
                 endPage = totalPages;
-                if(endPage > 10)
+                if (endPage > 10)
                 {
                     startPage = endPage - 9;
                 }
@@ -47,5 +46,6 @@
             StartPage = startPage;
             EndPage = endPage;
         }
+
     }
 }
