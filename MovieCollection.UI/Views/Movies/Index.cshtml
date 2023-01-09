@@ -33,7 +33,6 @@
         <table class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Title</th>
                     <th>Release Date</th>
                     <th>Country</th>
@@ -45,7 +44,6 @@
                 @foreach (var movie in Model)
                 {
                     <tr>
-                        <td width="10%">@movie.Id</td>
                         <td width="50%">@movie.Title</td>
                         <td width="20%">@movie.ReleaseDate.ToShortDateString()</td>
                         <td width="70%">@movie.Country.Name</td>
