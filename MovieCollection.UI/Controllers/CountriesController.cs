@@ -27,17 +27,20 @@ namespace MovieCollection.UI.Controllers
                 string data = response.Content.ReadAsStringAsync().Result;
                 modelList = JsonConvert.DeserializeObject<List<CountryViewModel>>(data);
             }
+            if (SearchText != "" && SearchText != null)
+            {
+                modelList = modelList.Where(p => p.Name.Contains(SearchText)).ToList();
+            }
+            else
+                modelList = modelList.ToList();
+
             const int pageSize = 10;
             if (pg < 1) { pg = 1; }
+
             int recsCount = modelList.Count();
-            var pager = new Pager(recsCount, pg, pageSize);
             int recSkip = (pg - 1) * pageSize;
-            var retList = modelList.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager = pager;
-            if(SearchText != "" && SearchText != null)
-            {
-                retList = modelList.Where(p => p.Name.Contains(SearchText)).ToList();
-            }
+
+            var retList = modelList.Skip(recSkip).Take(pageSize).ToList();            
             SPager SearchPager = new SPager(recsCount, pg, pageSize) { Action = "Index", Controller = "Countries", SearchText = SearchText };
             ViewBag.SearchPager = SearchPager;
             return View(retList);
