@@ -11,6 +11,26 @@ GO
 BEGIN TRANSACTION;
 GO
 
+CREATE PROCEDURE [dbo].[GetCountryByName]
+                     @countryName nvarchar(255)
+            AS
+            BEGIN
+                SET NOCOUNT ON;
+                SELECT * FROM [MovieCollection].[Country].[tblCountries] c
+                WHERE c.Name like '%@countryName%'
+            END
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230109191225_Stp_GetCountryByName', N'6.0.10');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
 IF SCHEMA_ID(N'Country') IS NULL EXEC(N'CREATE SCHEMA [Country];');
 GO
 
@@ -381,7 +401,7 @@ CREATE UNIQUE INDEX [IX_tblMovies_Title] ON [Movie].[tblMovies] ([Title]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20230109161519_FullScript', N'6.0.10');
+VALUES (N'20230109191848_FullScript', N'6.0.10');
 GO
 
 COMMIT;

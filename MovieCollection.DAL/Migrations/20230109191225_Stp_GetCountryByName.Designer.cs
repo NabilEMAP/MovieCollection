@@ -12,8 +12,8 @@ using MovieCollection.DAL.Contexts;
 namespace MovieCollection.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230109161519_FullScript")]
-    partial class FullScript
+    [Migration("20230109191225_Stp_GetCountryByName")]
+    partial class Stp_GetCountryByName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

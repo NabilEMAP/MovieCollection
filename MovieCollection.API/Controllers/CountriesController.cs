@@ -37,6 +37,15 @@ namespace MovieCollection.API.Controllers
             return Ok(countries);
         }
 
+        // GET api/Countries/name/{name}
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> GetCountryByName(string name)
+        {
+            var countries = await _countriesServices.GetCountryByName(name);
+            if (countries == null) { return NotFound(); }
+            return Ok(countries);
+        }
+
         // POST api/Countries
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateCountryDTO country)

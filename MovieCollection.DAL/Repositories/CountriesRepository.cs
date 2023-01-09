@@ -17,9 +17,10 @@ namespace MovieCollection.DAL.Repositories
         {
         }
 
-        public async Task<Country> GetByName(string name)
+        public async Task<Country> GetCountryByName(string name)
         {
-            return await _context.Countries.Where(x => x.Name == name).FirstOrDefaultAsync();
+            //Stored Procedure
+            return await _context.Countries.FromSql($"GetCountryByName{name}").FirstAsync();
         }
     }
 }

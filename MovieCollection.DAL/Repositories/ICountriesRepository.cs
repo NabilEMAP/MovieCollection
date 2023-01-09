@@ -9,6 +9,6 @@ namespace MovieCollection.DAL.Repositories
 {
     public interface ICountriesRepository : IGenericRepository<Country>
     {
-        Task<Country> GetByName(string name);
+        Task<Country> GetCountryByName(string name);
     }
 }

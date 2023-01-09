@@ -55,6 +55,12 @@ namespace MovieCollection.BLL.Services
             return _mapper.Map<CountryDTO>(countries);
         }
 
+        public async Task<CountryDTO> GetCountryByName(string name)
+        {
+            var countries = await _uow.CountriesRepository.GetCountryByName(name);
+            return _mapper.Map<CountryDTO>(countries);
+        }
+
         public async Task<CountryDTO> Update(int id, UpdateCountryDTO entity)
         {
             var countryFromRequest = _mapper.Map<Country>(entity);

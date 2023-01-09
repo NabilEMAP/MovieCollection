@@ -12,6 +12,7 @@ namespace MovieCollection.BLL.Interfaces
     {
         public Task<IEnumerable<CountryDTO>> GetAll();
         public Task<CountryDTO> GetById(int id);
+        public Task<CountryDTO> GetCountryByName(string name);
         public Task<CountryDTO> Add(CreateCountryDTO country);
         public Task<CountryDTO> Update(int id, UpdateCountryDTO country);
         public Task<int> Delete(int id);

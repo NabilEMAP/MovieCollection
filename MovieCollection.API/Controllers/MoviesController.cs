@@ -42,9 +42,21 @@ namespace MovieCollection.API.Controllers
 
         // GET api/Movies/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var movie = await _moviesService.GetById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return Ok(movie);
+        }
+
+        // GET api/Movies/titel/{title}
+        [HttpGet("title/{title}")]
+        public async Task<IActionResult> GetMovieByTitle(string title)
+        {
+            var movie = await _moviesService.GetMovieByTitle(title);
             if (movie == null)
             {
                 return NotFound();

@@ -27,22 +27,9 @@ namespace MovieCollection.DAL.Repositories
 
         public async Task<Movie> GetByTitle(string title)
         {
-            return await _context.Movies.Where(s => s.Title == title).FirstOrDefaultAsync();
+            //Query
+            string query = $"SELECT *  FROM [MovieCollection].[Movie].[tblMovies] m  WHERE m.Title like '%{title}%'";
+            return await _context.Movies.FromSqlRaw(query).FirstAsync();
         }
-
-        //public async Task<Movie> GetByCountry(Country country)
-        //{
-        //    return await _context.Movies.Where(s => s.Country == country).FirstOrDefaultAsync();
-        //}
-
-        //public async Task<Movie> GetByGenre(IEnumerable<Genre> genres)
-        //{
-        //    return await _context.Movies.Where(s => s.Genres == genres).FirstOrDefaultAsync();
-        //}
-
-        //public async Task<Movie> GetByDirector(Director director)
-        //{
-        //    return await _context.Movies.Where(s => s.Director == director).FirstOrDefaultAsync();
-        //}
     }
 }

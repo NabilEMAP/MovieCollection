@@ -80,5 +80,11 @@ namespace MovieCollection.BLL.Services
             await _uow.Save();
             return _mapper.Map<MovieDetailDTO>(movieToUpdate);
         }
+
+        public async Task<MovieDetailDTO> GetMovieByTitle(string title)
+        {
+            var movie = await _uow.MoviesRepository.GetByTitle(title);
+            return _mapper.Map<MovieDetailDTO>(movie);
+        }
     }
 }

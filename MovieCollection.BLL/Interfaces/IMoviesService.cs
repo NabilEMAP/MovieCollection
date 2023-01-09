@@ -12,6 +12,7 @@ namespace MovieCollection.BLL.Interfaces
     {
         public Task<IEnumerable<MovieDetailDTO>> GetMovieDetails();
         public Task<IEnumerable<MovieDTO>> GetMovies();
+        public Task<MovieDetailDTO> GetMovieByTitle(string title);
         public Task<MovieDetailDTO> GetById(int id);
         public Task<MovieDetailDTO> Add(CreateMovieDTO movie);
         public Task<MovieDetailDTO> Update(int id, UpdateMovieDTO movie);
